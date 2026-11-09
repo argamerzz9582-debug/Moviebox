@@ -19,9 +19,16 @@ ann() { # ann <title> <text>
   done <<< "$text"
 }
 
+GIST() { # GIST <file> -> error lines first, then head and tail
+  { grep -iE 'error|exception|failed|rc=[1-9]|no apk|unrecognized|not found|cannot|missing' "$1" 2>/dev/null | head -n 8
+    echo "--- head ---"; head -n 6 "$1" 2>/dev/null
+    echo "--- tail ---"; tail -n 6 "$1" 2>/dev/null
+  }
+}
+
 section() { # section <title> <file>
   [ -s "$2" ] || return 0
-  ann "$1" "$(tail -n 40 "$2")"
+  ann "$1" "$(GIST "$2")"
 }
 
 echo "## failure diagnostics"

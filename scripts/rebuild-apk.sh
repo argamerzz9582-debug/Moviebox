@@ -95,8 +95,13 @@ case "${SIGNER_MODE:-}" in
       --ksKeyPass "$KEYSTORE_PASS_USED" \
       --allowResign --overwrite \
       --out "$R/uber-out" 2>&1 | tee "$R/uber-apk-signer.log"
-    PRODUCED="$(find "$R/uber-out" -name '*signed*.apk' -o -name '*aligned*.apk' 2>/dev/null | head -1)"
-    test -n "$PRODUCED" || { echo "ERROR: uber-apk-signer produced no APK"; exit 1; }
+    PRODUCED="$(find "$R/uber-out" -name '*signed*.apk' 2>/dev/null | head -1)"
+    [ -n "$PRODUCED" ] || PRODUCED="$(find "$R/uber-out" -name '*.apk' 2>/dev/null | head -1)"
+    if [ -z "$PRODUCED" ]; then
+      echo "ERROR: uber-apk-signer produced no APK; usage follows"
+      java -jar "$UBER" --help 2>&1 | head -40
+      exit 1
+    fi
     cp "$PRODUCED" "$SIGNED"
     ;;
   *)
