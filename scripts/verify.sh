@@ -40,7 +40,12 @@ echo "### 2. archive + alignment"
 if have zipalign; then
   if zipalign -c 4 "$SIGNED" >> "$R/verification.log" 2>&1; then pass "zipalign 4-byte aligned"; else fail "zipalign -c 4"; fi
 else
-  info "zipalign unavailable (uber-apk-signer zipaligns in its own pass)"
+  if python3 scripts/check-alignment.py "$SIGNED" > "$R/alignment.txt" 2>&1; then
+    pass "4-byte alignment (python check)"
+    sed 's/^/      /' "$R/alignment.txt" | tee -a "$R/verification.log"
+  else
+    fail "4-byte alignment (python check)"; cat "$R/alignment.txt"
+  fi
 fi
 if unzip -t "$SIGNED" > "$R/ziptest-rebuilt.txt" 2>&1; then pass "zip central directory intact"; else fail "unzip -t"; fi
 

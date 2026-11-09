@@ -80,6 +80,7 @@ case "${SIGNER_MODE:-}" in
     ;;
   uber)
     echo "### 4. sign with uber-apk-signer (zipalign + v1/v2/v3 in one pass)"
+    rm -rf "$R/uber-out"
     UBER="${RUNNER_TEMP:-/tmp}/tools/uber-apk-signer.jar"
     JAVA_KEYSTORE="$RUNNER_TEMP/keys/release.jks"
     keytool -importkeystore -noprompt \
@@ -93,7 +94,7 @@ case "${SIGNER_MODE:-}" in
       --ksAlias "$KEY_ALIAS_USED" \
       --ksPass "$KEYSTORE_PASS_USED" \
       --ksKeyPass "$KEYSTORE_PASS_USED" \
-      --allowResign --overwrite \
+      --allowResign \
       --out "$R/uber-out" 2>&1 | tee "$R/uber-apk-signer.log"
     PRODUCED="$(find "$R/uber-out" -name '*signed*.apk' 2>/dev/null | head -1)"
     [ -n "$PRODUCED" ] || PRODUCED="$(find "$R/uber-out" -name '*.apk' 2>/dev/null | head -1)"
