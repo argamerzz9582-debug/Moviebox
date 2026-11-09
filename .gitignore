@@ -1,0 +1,19 @@
+# Local build / analysis scratch (the CI runner uses its own temp dirs)
+work/
+build/
+apk/
+*.apk
+*.idsig
+decode/
+jadx_out/
+ghidra_project/
+.ghidra/
+reports/*.json
+reports/*.xml
+reports/*.txt
+secrets/
+*.p12
+*.jks
+*.keystore
+__pycache__/
+*.pyc
