@@ -1,0 +1,111 @@
+name: Diagnose rebuilt-APK crash
+
+# Compares the ORIGINAL apk with the REBUILT apk we published and reports the
+# conditions that make a rebuilt Android app crash at startup. Findings are
+# emitted as check-run annotations, because workflow logs are not reachable from
+# every environment.
+
+on:
+  workflow_dispatch:
+    inputs:
+      rebuilt_url:
+        description: 'Rebuilt APK URL (leave empty to use our release asset)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+env:
+  APK_DRIVE_FILE_ID: '1yTSTuPz5VUeTw4Gt3FSj1h-ryCqQyO_J'
+  APK_BASENAME: 'MovieBox_v4.0.02.0831.03.apk'
+  APKTOOL_VERSION: '3.0.3'
+  REBUILT_ASSET: 'MovieBox_v4.0.02.0831.03_rebuilt_signed.apk'
+  RELEASE_TAG: 'moviebox-v4.0.02.0831.03-rebuilt'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Resolve apktool
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/tools/bin" work reports
+          curl -fsSL --retry 3 -o "$HOME/tools/apktool.jar" \
+            "https://github.com/iBotPeaches/Apktool/releases/download/v${APKTOOL_VERSION}/apktool_${APKTOOL_VERSION}.jar"
+          printf '#!/usr/bin/env bash\nexec java -jar %s/tools/apktool.jar "$@"\n' "$HOME" > "$HOME/tools/bin/apktool"
+          chmod +x "$HOME/tools/bin/apktool"
+          echo "$HOME/tools/bin" >> "$GITHUB_PATH"
+
+      - name: Fetch original APK (Google Drive)
+        run: bash scripts/fetch-apk.sh
+
+      - name: Fetch rebuilt APK (our release asset)
+        env:
+          URL: ${{ inputs.rebuilt_url }}
+        run: |
+          set -euo pipefail
+          mkdir -p apk
+          if [ -n "$URL" ]; then SRC="$URL"; else
+            SRC="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/${REBUILT_ASSET}"
+          fi
+          echo "==> $SRC"
+          curl -fsSL --retry 3 -o "apk/${REBUILT_ASSET}" "$SRC"
+          ls -l apk
+          sha256sum apk/*.apk
+
+      - name: Decode both APKs
+        run: |
+          set -uo pipefail
+          apktool d -f -s "apk/${APK_BASENAME}" -o work/orig > reports/decode-orig.log 2>&1 || tail -20 reports/decode-orig.log
+          apktool d -f -s "apk/${REBUILT_ASSET}" -o work/rebuilt > reports/decode-rebuilt.log 2>&1 || tail -20 reports/decode-rebuilt.log
+          ls work/orig/AndroidManifest.xml work/rebuilt/AndroidManifest.xml
+
+      - name: Triage
+        run: |
+          set -uo pipefail
+          python3 scripts/triage-apk.py \
+            "apk/${APK_BASENAME}" "apk/${REBUILT_ASSET}" \
+            work/orig work/rebuilt > reports/triage.json 2> reports/triage.txt || true
+          cat reports/triage.txt
+          python3 - <<'PY'
+          import json
+          d = json.load(open("reports/triage.json"))
+          problems = d.get("problems") or []
+          notes = d.get("notes") or []
+          at = d.get("anti_tamper") or {}
+          for p in problems[:8]:
+              print(f"::error title=structural mismatch::{p[:600]}")
+          for n in notes[:4]:
+              print(f"::notice title=note::{n[:600]}")
+          for k, v in at.items():
+              print(f"::warning title=anti-tamper signal::{k}: {v} classes")
+          hot = (d.get("hot_classes") or [])[:6]
+          for name, count in hot:
+              print(f"::warning title=signature-check candidate::{name} ({count} signals)")
+          om, rm = d["original"]["manifest"], d["rebuilt"]["manifest"]
+          print(f"::notice title=manifest::original extractNativeLibs={om.get('extractNativeLibs')} package={om.get('package')} targetSdk={om.get('targetSdkVersion')} | rebuilt extractNativeLibs={rm.get('extractNativeLibs')}")
+          PY
+
+      - name: Upload triage report
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: crash-triage-${{ github.run_number }}
+          if-no-files-found: warn
+          path: |
+            reports/triage.json
+            reports/triage.txt
+            reports/decode-*.log
