@@ -46,6 +46,7 @@ env:
   GHIDRA_ZIP: 'ghidra_12.1.4_PUBLIC_20260921.zip'
   BUILD_TOOLS: '35.0.0'
   SMALI_VERSION: '3.0.9'
+  UBER_APK_SIGNER_VERSION: '1.3.0'
 
 defaults:
   run:
@@ -79,27 +80,7 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Install Android build-tools (zipalign + apksigner, no sdkmanager)
-        run: |
-          set -euo pipefail
-          mkdir -p "$HOME/android-sdk/build-tools"
-          echo "ANDROID_HOME=$HOME/android-sdk" >> "$GITHUB_ENV"
-          # Build-tools come straight from Google's stable repository: no SDK
-          # licence prompt, no sdkmanager, no third-party setup action.
-          curl -fsSL --retry 3 -o /tmp/build-tools.zip \
-            "https://dl.google.com/android/repository/build-tools_r${BUILD_TOOLS}-linux.zip"
-          unzip -q /tmp/build-tools.zip -d /tmp/bt
-          SRC="$(find /tmp/bt -maxdepth 2 -name aapt2 -printf '%h\n' | head -1)"
-          test -n "$SRC" || { echo "no aapt2 in the build-tools archive"; find /tmp/bt -maxdepth 2 | head -20; exit 1; }
-          mv "$SRC" "$HOME/android-sdk/build-tools/${BUILD_TOOLS}"
-          chmod +x "$HOME/android-sdk/build-tools/${BUILD_TOOLS}"/*
-          echo "$HOME/android-sdk/build-tools/${BUILD_TOOLS}" >> "$GITHUB_PATH"
-          echo "=== installed tool versions ==="
-          "$HOME/android-sdk/build-tools/${BUILD_TOOLS}/zipalign" 2>&1 | head -2 || true
-          "$HOME/android-sdk/build-tools/${BUILD_TOOLS}/aapt2" version
-          java -jar "$HOME/android-sdk/build-tools/${BUILD_TOOLS}/lib/apksigner.jar" --version
-
-      - name: Install REA + apktool + JADX engine (+ Ghidra)
+      - name: Resolve toolchain (REA, apktool, JADX, Ghidra, signer)
         env:
           RUN_GHIDRA: ${{ inputs.run_ghidra }}
         run: bash scripts/install-tools.sh
