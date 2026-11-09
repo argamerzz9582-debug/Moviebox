@@ -1,0 +1,152 @@
+name: MovieBox — REA analysis, rebuild & sign
+
+# Reverse-engineer the MovieBox APK (REA: apktool + JADX + Ghidra), rebuild a
+# modified but signing-valid APK from its decoded sources, verify the result and
+# publish it as a GitHub Release asset (a permanent, directly downloadable URL).
+
+on:
+  workflow_dispatch:
+    inputs:
+      apk_url:
+        description: 'Direct APK URL (leave empty to use the configured Google Drive file)'
+        required: false
+        default: ''
+      apk_sha256:
+        description: 'Expected SHA-256 of the source APK (optional provenance pin)'
+        required: false
+        default: ''
+      run_ghidra:
+        description: 'Run the Ghidra native-code lane (slower, ~10-20 min)'
+        type: choice
+        options: ['true', 'false']
+        default: 'true'
+      publish_release:
+        description: 'Publish a GitHub Release with the signed APK'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: moviebox-rebuild
+  cancel-in-progress: false
+
+env:
+  # Google Drive file: MovieBox_v4.0.02.0831.03.apk (64 MiB)
+  APK_DRIVE_FILE_ID: '1yTSTuPz5VUeTw4Gt3FSj1h-ryCqQyO_J'
+  APK_BASENAME: 'MovieBox_v4.0.02.0831.03.apk'
+
+  # Pinned tool versions
+  REA_VERSION: '6.8.0'
+  APKTOOL_VERSION: '3.0.3'
+  JADX_MCP_VERSION: '0.7.1'
+  JADX_MCP_SHA256: '6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75'
+  GHIDRA_VERSION: '12.1.4'
+  GHIDRA_ZIP: 'ghidra_12.1.4_PUBLIC_20260921.zip'
+  BUILD_TOOLS: '35.0.0'
+  SMALI_VERSION: '3.0.9'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  rebuild:
+    name: Rebuild MovieBox
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          set -euo pipefail
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk/ndk /opt/ghc \
+                      /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" 2>/dev/null || true
+          df -h /
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Node.js 24 (REA runtime)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Set up Android SDK (zipalign + apksigner)
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android build-tools
+        run: |
+          set -euo pipefail
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager --install "build-tools;${BUILD_TOOLS}" "platform-tools" > /dev/null
+          echo "${ANDROID_HOME}/build-tools/${BUILD_TOOLS}" >> "$GITHUB_PATH"
+
+      - name: Install REA + apktool + JADX engine (+ Ghidra)
+        env:
+          RUN_GHIDRA: ${{ inputs.run_ghidra }}
+        run: bash scripts/install-tools.sh
+
+      - name: Fetch source APK
+        env:
+          APK_URL: ${{ inputs.apk_url }}
+          EXPECTED_SHA256: ${{ inputs.apk_sha256 }}
+        run: bash scripts/fetch-apk.sh
+
+      - name: Baseline static analysis (REA + JADX + apktool)
+        run: bash scripts/baseline-re.sh
+
+      - name: Native code lane (REA extract + JADX inventory + Ghidra)
+        env:
+          RUN_GHIDRA: ${{ inputs.run_ghidra }}
+        run: bash scripts/native-re.sh
+
+      - name: Restore release signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.RELEASE_KEYSTORE_B64 }}
+          KEYSTORE_PASS: ${{ secrets.RELEASE_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+        run: bash scripts/keystore.sh
+
+      - name: Rebuild + mod + zipalign + sign
+        run: bash scripts/rebuild-apk.sh
+
+      - name: Verify rebuilt APK
+        run: bash scripts/verify.sh
+
+      - name: Parity check (carried-over content must be byte-identical)
+        run: bash scripts/parity.sh || exit 1
+
+      - name: Build report
+        if: always()
+        run: python3 scripts/report.py || echo "report generation failed (non-fatal)"
+
+      - name: Upload analysis + build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: moviebox-rebuild-${{ github.run_number }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            reports/
+            build/*.apk
+            build/*.txt
+            build/*.idsig
+
+      - name: Publish release
+        if: success() && inputs.publish_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/publish-release.sh
+
+      - name: Job summary
+        if: always()
+        run: bash scripts/summary.sh
