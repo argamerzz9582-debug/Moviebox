@@ -83,6 +83,25 @@ else
   log "  DOWNLOAD FAILED (JADX lane will report capability_unavailable)"
 fi
 
+# ---------------------------------------------------------------- aapt2
+# The Google build-tools archive ships zipalign/apksigner but NOT aapt2 (and
+# dl.google.com is not reachable from every runner), so aapt2 is taken from the
+# digest-pinned jadx-headless jar, which bundles it per platform.
+log "## aapt2"
+AAPT2_DIR="$TOOLS/aapt2"
+mkdir -p "$AAPT2_DIR"
+if [ -f "$TOOLS/jadx-headless-mcp.jar" ]; then
+  unzip -o -q -j "$TOOLS/jadx-headless-mcp.jar" 'linux/aapt2' -d "$AAPT2_DIR" 2>/dev/null || true
+  [ -f "$AAPT2_DIR/aapt2" ] || unzip -o -q -j "$TOOLS/jadx-headless-mcp.jar" '*aapt2*' -d "$AAPT2_DIR" 2>/dev/null || true
+fi
+if [ -f "$AAPT2_DIR/aapt2" ]; then
+  chmod +x "$AAPT2_DIR/aapt2"
+  ln -sf "$AAPT2_DIR/aapt2" "$TOOLS/bin/aapt2"
+  log "  version: $("$AAPT2_DIR/aapt2" version 2>&1 | head -1)"
+else
+  log "  ::warning::aapt2 not available (apktool uses its packaged copy)"
+fi
+
 # ---------------------------------------------------------------- smali (fallback repack)
 log "## smali ${SMALI_VERSION} (only if apktool cannot repack)"
 if dl "https://github.com/google/smali/releases/download/v${SMALI_VERSION}/smali-${SMALI_VERSION}-fat.jar" "$ROOT/work/smali.jar"; then
