@@ -3,10 +3,19 @@
 # resumable download URL (no login, no Drive quota page, no expiring link).
 set -euo pipefail
 
-SIGNED="$(cat work/signed-apk-path.txt)"
+if [ -s work/fidelity-apk-path.txt ]; then
+  SIGNED="$(cat work/fidelity-apk-path.txt)"
+else
+  SIGNED="$(cat work/signed-apk-path.txt)"
+fi
 VERSION="v4.0.02.0831.03"
-TAG="moviebox-${VERSION}-rebuilt"
-TITLE="MovieBox ${VERSION} — rebuilt & signed"
+if [ "${FIDELITY:-0}" = "1" ]; then
+  TAG="moviebox-${VERSION}-fidelity"
+  TITLE="MovieBox ${VERSION} — high-fidelity repack (signature-only change)"
+else
+  TAG="moviebox-${VERSION}-rebuilt"
+  TITLE="MovieBox ${VERSION} — rebuilt & signed"
+fi
 NOTES=reports/release-notes.md
 SHA="$(sha256sum "$SIGNED" | cut -d' ' -f1)"
 FP="$(awk -F': ' '/certificate_sha256/{print $2}' build/signing-identity.txt || true)"
