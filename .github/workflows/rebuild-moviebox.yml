@@ -115,6 +115,18 @@ jobs:
       - name: Parity check (carried-over content must be byte-identical)
         run: bash scripts/parity.sh || exit 1
 
+      - name: Startup-safety triage (original vs rebuilt)
+        run: |
+          set -uo pipefail
+          python3 scripts/triage-apk.py \
+            "apk/${APK_BASENAME}" "$(cat work/signed-apk-path.txt)" \
+            work/decoded work/decoded > reports/triage.json 2> reports/triage.txt || true
+          cat reports/triage.txt
+          if grep -q "missing from rebuilt\|original STORED -> rebuilt DEFLATED\|original DEFLATED -> rebuilt STORED" reports/triage.txt; then
+            echo "::error title=startup risk::compression/entry mismatch that can crash the app at startup"
+            exit 1
+          fi
+
       - name: Failure diagnostics
         if: failure()
         run: bash scripts/diagnostics.sh
