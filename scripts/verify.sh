@@ -6,7 +6,12 @@
 set -uo pipefail
 
 R=reports
-SIGNED="$(cat work/signed-apk-path.txt)"
+if [ -s work/fidelity-apk-path.txt ]; then
+  SIGNED="$(cat work/fidelity-apk-path.txt)"
+else
+  SIGNED="$(cat work/signed-apk-path.txt)"
+fi
+echo "verifying: $SIGNED"
 FAIL=0
 : > "$R/verification.log"
 
