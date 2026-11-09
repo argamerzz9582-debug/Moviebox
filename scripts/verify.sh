@@ -68,8 +68,13 @@ if have aapt2; then
   fi
 else
   # apktool bundles aapt2; use it to decode the rebuilt manifest as the check.
-  if apktool d -f -s --no-res "$SIGNED" -o work/verify-decoded > "$R/verify-decode.log" 2>&1 \
-     && [ -f work/verify-decoded/AndroidManifest.xml ]; then
+  DECODED=0
+  for dflags in "-f -s -r" "-f -s" "-f"; do
+    rm -rf work/verify-decoded
+    if apktool d $dflags "$SIGNED" -o work/verify-decoded >> "$R/verify-decode.log" 2>&1 \
+       && [ -f work/verify-decoded/AndroidManifest.xml ]; then DECODED=1; break; fi
+  done
+  if [ "$DECODED" -eq 1 ]; then
     pass "manifest decodes (apktool --no-res)"
     grep -oE 'android:extractNativeLibs="[^"]*"|package="[^"]*"' work/verify-decoded/AndroidManifest.xml | head -3 | sed 's/^/      /' | tee -a "$R/verification.log"
   else

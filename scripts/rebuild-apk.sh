@@ -24,11 +24,14 @@ python3 scripts/mod_manifest.py work/decoded/AndroidManifest.xml | tee "$R/manif
 
 echo "### 2. repack (apktool b)"
 BUILD_OK=0
-for flags in "--use-aapt2 -p work/framework" "--use-aapt2 --no-crunch" "--use-aapt2" "-p work/framework" "--no-crunch" ""; do
+# apktool 3.x always uses aapt2 (--use-aapt2 was removed there) while 2.x wants
+# it explicitly, and the framework-dir flag moved between majors. Each form is
+# tried in isolation: a failing build must not abort the loop.
+for flags in "-p work/framework" "--use-aapt2 -p work/framework" "--use-aapt2" ""; do
   rm -f build/unsigned.apk
   {
-    echo "--- attempt: apktool b ${flags}"
-    apktool b ${flags} work/decoded -o build/unsigned.apk 2>&1
+    echo "--- attempt: apktool b ${flags} work/decoded -o build/unsigned.apk"
+    ( set +e; apktool b ${flags} work/decoded -o build/unsigned.apk 2>&1; echo "rc=$?" )
   } >> "$R/apktool-build.log"
   if [ -s build/unsigned.apk ]; then
     BUILD_OK=1
