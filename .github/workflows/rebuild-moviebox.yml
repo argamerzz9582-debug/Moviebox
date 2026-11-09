@@ -115,6 +115,10 @@ jobs:
       - name: Parity check (carried-over content must be byte-identical)
         run: bash scripts/parity.sh || exit 1
 
+      - name: Failure diagnostics
+        if: failure()
+        run: bash scripts/diagnostics.sh
+
       - name: Build report
         if: always()
         run: python3 scripts/report.py || echo "report generation failed (non-fatal)"

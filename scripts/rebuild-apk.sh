@@ -21,7 +21,7 @@ python3 scripts/mod_manifest.py work/decoded/AndroidManifest.xml | tee "$R/manif
 
 echo "### 2. repack (apktool b)"
 BUILD_OK=0
-for flags in "--use-aapt2 -p work/framework" "--use-aapt2" "-p work/framework" ""; do
+for flags in "--use-aapt2 -p work/framework" "--use-aapt2 --no-crunch" "--use-aapt2" "-p work/framework" "--no-crunch" ""; do
   rm -f build/unsigned.apk
   {
     echo "--- attempt: apktool b ${flags}"
