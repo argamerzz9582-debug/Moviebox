@@ -43,21 +43,14 @@ echo "## failure diagnostics"
   df -h / | tail -1
 } 2>&1 | tee "$R/diagnostics.txt"
 
-section "toolchain" "$R/toolchain.txt"
-section "rea doctor" "$R/rea-doctor.json"
-section "apktool client" "$R/rea-apktool-client.json"
-section "fetch" "$R/source-apk.sha256"
-for f in "$R"/*.stderr; do
-  [ -e "$f" ] || continue
-  section "REA $(basename "$f" .stderr)" "$f"
-done
-section "apktool decode" "$R/apktool-decode.log"
+# Bounded, high-signal evidence only: the failure point first.
+section "rebuild console" "$R/rebuild-console.log"
 section "apktool build" "$R/apktool-build.log"
 section "smali build" "$R/smali-build.log"
 section "apksigner" "$R/apksigner.log"
 section "uber-apk-signer" "$R/uber-apk-signer.log"
 section "verification" "$R/verification.log"
-section "parity" "$R/decoded-vs-rebuilt-vs-original.txt"
+section "REA jadx" "$R/android-package.stderr"
 
 echo
 echo "### file inventory"

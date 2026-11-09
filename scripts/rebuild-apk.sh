@@ -7,6 +7,9 @@ set -euo pipefail
 
 R=reports
 mkdir -p "$R" build
+# Everything this step prints is also retained, so a failure can be reported as
+# a check-run annotation even where workflow logs are unreachable.
+exec > >(tee -a "$R/rebuild-console.log") 2>&1
 OUT_VERSION="v4.0.02.0831.03"
 SIGNED="build/MovieBox_${OUT_VERSION}_rebuilt_signed.apk"
 
@@ -48,6 +51,14 @@ fi
 
 if [ "$BUILD_OK" -ne 1 ]; then
   echo "ERROR: neither repack lane produced an APK; analysis artifacts are still published"
+  {
+    echo "--- apktool version"; apktool --version 2>&1 | head -3
+    echo "--- apktool b usage"; apktool b --help 2>&1 | head -40
+    echo "--- decoded tree"; ls -la work/decoded 2>&1 | head -30
+    echo "--- apktool.yml"; head -40 work/decoded/apktool.yml 2>&1
+    echo "--- smali dirs"; ls -d work/decoded/smali* 2>&1
+    echo "--- apktool-build.log tail"; tail -60 "$R/apktool-build.log" 2>&1
+  }
   exit 1
 fi
 
