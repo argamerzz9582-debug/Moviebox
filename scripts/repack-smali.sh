@@ -48,9 +48,14 @@ aapt2 compile --dir work/decoded/res -o work/rescompiled/ > "$R/aapt2-compile.lo
 echo "### aapt2 link"
 PLATFORM_JAR="$(ls -d "${ANDROID_HOME}"/platforms/android-*/android.jar 2>/dev/null | sort -V | tail -1)"
 if [ -z "${PLATFORM_JAR:-}" ]; then
-  yes | sdkmanager --licenses >/dev/null 2>&1 || true
-  sdkmanager --install "platforms;android-35" >/dev/null
-  PLATFORM_JAR="$(ls -d "${ANDROID_HOME}"/platforms/android-*/android.jar | sort -V | tail -1)"
+  # android.jar for aapt2 link, from Google's stable platform repository.
+  mkdir -p "$ANDROID_HOME/platforms"
+  curl -fsSL --retry 3 -o /tmp/platform.zip \
+    "https://dl.google.com/android/repository/platform-35_r02.zip"
+  unzip -q /tmp/platform.zip -d /tmp/platform
+  PSRC="$(find /tmp/platform -maxdepth 2 -name android.jar -printf '%h\n' | head -1)"
+  mv "$PSRC" "$ANDROID_HOME/platforms/android-35"
+  PLATFORM_JAR="$ANDROID_HOME/platforms/android-35/android.jar"
 fi
 echo "    platform jar: $PLATFORM_JAR"
 

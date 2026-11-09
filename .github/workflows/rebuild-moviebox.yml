@@ -79,15 +79,25 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Set up Android SDK (zipalign + apksigner)
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android build-tools
+      - name: Install Android build-tools (zipalign + apksigner, no sdkmanager)
         run: |
           set -euo pipefail
-          yes | sdkmanager --licenses > /dev/null 2>&1 || true
-          sdkmanager --install "build-tools;${BUILD_TOOLS}" "platform-tools" > /dev/null
-          echo "${ANDROID_HOME}/build-tools/${BUILD_TOOLS}" >> "$GITHUB_PATH"
+          mkdir -p "$HOME/android-sdk/build-tools"
+          echo "ANDROID_HOME=$HOME/android-sdk" >> "$GITHUB_ENV"
+          # Build-tools come straight from Google's stable repository: no SDK
+          # licence prompt, no sdkmanager, no third-party setup action.
+          curl -fsSL --retry 3 -o /tmp/build-tools.zip \
+            "https://dl.google.com/android/repository/build-tools_r${BUILD_TOOLS}-linux.zip"
+          unzip -q /tmp/build-tools.zip -d /tmp/bt
+          SRC="$(find /tmp/bt -maxdepth 2 -name aapt2 -printf '%h\n' | head -1)"
+          test -n "$SRC" || { echo "no aapt2 in the build-tools archive"; find /tmp/bt -maxdepth 2 | head -20; exit 1; }
+          mv "$SRC" "$HOME/android-sdk/build-tools/${BUILD_TOOLS}"
+          chmod +x "$HOME/android-sdk/build-tools/${BUILD_TOOLS}"/*
+          echo "$HOME/android-sdk/build-tools/${BUILD_TOOLS}" >> "$GITHUB_PATH"
+          echo "=== installed tool versions ==="
+          "$HOME/android-sdk/build-tools/${BUILD_TOOLS}/zipalign" 2>&1 | head -2 || true
+          "$HOME/android-sdk/build-tools/${BUILD_TOOLS}/aapt2" version
+          java -jar "$HOME/android-sdk/build-tools/${BUILD_TOOLS}/lib/apksigner.jar" --version
 
       - name: Install REA + apktool + JADX engine (+ Ghidra)
         env:
