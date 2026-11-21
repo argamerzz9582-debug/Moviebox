@@ -16,14 +16,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { clearAll, deleteBlob, loadSnapshot, saveSnapshot, storageAvailable } from "../lib/db";
-import type { LibrarySnapshot, ProgressRecord, Title } from "../lib/types";
+import { clearAll, deleteBlob, loadSnapshot, requestPersistence, saveSnapshot, storageAvailable } from "../lib/db";
+import type { LibrarySnapshot, ProgressRecord, Title, ViewMode } from "../lib/types";
 import { EMPTY_LIBRARY } from "../lib/types";
 
 export type SortKey = "recent" | "title" | "year" | "progress";
-export type FilterKey = "all" | "movie" | "series" | "unwatched" | "inprogress" | "watched";
+export type FilterKey = "all" | "movie" | "series" | "unwatched" | "inprogress" | "watched" | "favourites";
 
 interface State extends LibrarySnapshot {
+  viewMode: ViewMode;
   status: "loading" | "ready";
   sort: SortKey;
   filter: FilterKey;
@@ -38,6 +39,8 @@ type Action =
   | { type: "renameTitle"; id: string; name: string }
   | { type: "setProgress"; record: ProgressRecord }
   | { type: "toggleWatched"; id: string }
+  | { type: "toggleFavourite"; id: string }
+  | { type: "viewMode"; mode: ViewMode }
   | { type: "createCollection"; name: string }
   | { type: "deleteCollection"; collection: string }
   | { type: "toggleInCollection"; collection: string; titleId: string }
@@ -49,6 +52,7 @@ type Action =
 
 const INITIAL: State = {
   ...EMPTY_LIBRARY,
+  viewMode: "grid",
   status: "loading",
   sort: "recent",
   filter: "all",
@@ -62,7 +66,7 @@ export const WATCHED_THRESHOLD = 0.95;
 export function libraryReducer(state: State, action: Action): State {
   switch (action.type) {
     case "hydrate":
-      return { ...state, ...action.snapshot, status: "ready" };
+      return { ...state, ...action.snapshot, viewMode: action.snapshot.viewMode ?? state.viewMode, status: "ready" };
     case "replaceTitles":
       return { ...state, titles: action.titles };
     case "removeTitle": {
@@ -100,6 +104,15 @@ export function libraryReducer(state: State, action: Action): State {
         ...state,
         titles: state.titles.map((title) => (title.id === action.id ? { ...title, watched: !title.watched } : title)),
       };
+    case "toggleFavourite":
+      return {
+        ...state,
+        titles: state.titles.map((title) =>
+          title.id === action.id ? { ...title, favourite: !title.favourite } : title,
+        ),
+      };
+    case "viewMode":
+      return { ...state, viewMode: action.mode };
     case "createCollection": {
       const name = action.name.trim();
       if (!name || state.collections[name]) return state;
@@ -158,6 +171,8 @@ export function selectVisible(state: State): Title[] {
         return !title.watched && title.progress > 0;
       case "watched":
         return title.watched;
+      case "favourites":
+        return Boolean(title.favourite);
       default:
         return true;
     }
@@ -196,6 +211,7 @@ interface LibraryContextValue {
   dispatch: (action: Action) => void;
   visibleTitles: Title[];
   collections: string[];
+  favourites: Title[];
   storageOk: boolean;
   addTitles: (titles: Title[]) => void;
   removeTitle: (id: string) => Promise<void>;
@@ -227,12 +243,21 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hydrated.current) return;
     const timer = setTimeout(() => {
-      void saveSnapshot({ titles: state.titles, progress: state.progress, collections: state.collections });
+      void saveSnapshot({
+        titles: state.titles,
+        progress: state.progress,
+        collections: state.collections,
+        viewMode: state.viewMode,
+      });
     }, 400);
     return () => clearTimeout(timer);
-  }, [state.titles, state.progress, state.collections]);
+  }, [state.titles, state.progress, state.collections, state.viewMode]);
 
-  const addTitles = useCallback((titles: Title[]) => dispatch({ type: "replaceTitles", titles }), []);
+  const addTitles = useCallback((titles: Title[]) => {
+    dispatch({ type: "replaceTitles", titles });
+    // Media is large; without this the browser may evict it silently.
+    void requestPersistence();
+  }, []);
 
   const removeTitle = useCallback(async (id: string) => {
     dispatch({ type: "removeTitle", id });
@@ -249,6 +274,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       dispatch,
       visibleTitles: selectVisible(state),
       collections: Object.keys(state.collections),
+      favourites: state.titles.filter((title) => title.favourite),
       storageOk,
       addTitles,
       removeTitle,
@@ -264,6 +290,11 @@ export function useLibrary(): LibraryContextValue {
   const value = useContext(LibraryContext);
   if (!value) throw new Error("useLibrary must be used inside <LibraryProvider>");
   return value;
+}
+
+/** Toggle a favourite without threading the action through every caller. */
+export function favouriteAction(id: string): Action {
+  return { type: "toggleFavourite", id };
 }
 
 /** Delete a title's blobs (called only after the user confirms removal). */

@@ -3,18 +3,21 @@
  *
  * Two stores:
  *   - `meta`   : the serialised library snapshot (one record)
- *   - `files`  : the media Blobs, keyed by media-file id
+ *   - `files`  : the media payloads, keyed by media-file id
  *
- * Media blobs are stored separately from metadata so a library scan of 200
- * titles does not rewrite 40 GB of video data on every progress tick. Progress
- * updates only touch `meta`. Blobs are persisted as ArrayBuffers rather than
- * Blobs: a few engines (older WebKit) fail to structured-clone Blobs into
- * IndexedDB, and reconstructing on read is cheap.
+ * **Storage strategy matters for playback.** Reading a 2 GB file into an
+ * `ArrayBuffer` (then rebuilding a `Blob` from it) allocates the whole film in
+ * memory twice, which freezes or crashes the tab — that was the "it gets stuck
+ * and never plays" bug. So the payload is stored as a `Blob` whenever the engine
+ * can structured-clone one (every current browser can), which lets
+ * `URL.createObjectURL` hand the browser a *reference* instead of a copy. The
+ * ArrayBuffer form is kept only as a fallback, and remains readable, so
+ * libraries created by earlier versions keep working.
  */
 import type { LibrarySnapshot } from "./types";
 
 const DB_NAME = "cinematheque";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const META_STORE = "meta";
 const FILE_STORE = "files";
 const SNAPSHOT_KEY = "snapshot";
@@ -25,16 +28,25 @@ export interface StoredBlob {
   fileName: string;
 }
 
-/** What actually goes on disk: a Blob is not portable across every engine. */
+/** What actually goes on disk. Either field may be present (see header note). */
 interface BlobRecord {
   id: string;
-  data: ArrayBuffer;
+  blob?: Blob;
+  data?: ArrayBuffer;
   type: string;
   fileName: string;
+  /** Bytes, kept so the UI can show sizes without touching the payload. */
+  size: number;
 }
 
+/** One cached connection: opening a connection per call stalls under load. */
+let connection: Promise<IDBDatabase> | null = null;
+/** Some engines reject Blob values; remember the first failure and stop trying. */
+let preferArrayBuffer = false;
+
 function openDatabase(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
+  if (connection) return connection;
+  connection = new Promise((resolve, reject) => {
     if (typeof indexedDB === "undefined") {
       reject(new Error("IndexedDB unavailable"));
       return;
@@ -45,28 +57,69 @@ function openDatabase(): Promise<IDBDatabase> {
       if (!db.objectStoreNames.contains(META_STORE)) db.createObjectStore(META_STORE);
       if (!db.objectStoreNames.contains(FILE_STORE)) db.createObjectStore(FILE_STORE, { keyPath: "id" });
     };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error ?? new Error("IndexedDB open failed"));
+    request.onsuccess = () => {
+      const db = request.result;
+      // A second tab upgrading the schema would otherwise block forever.
+      db.onversionchange = () => {
+        db.close();
+        connection = null;
+      };
+      resolve(db);
+    };
+    request.onerror = () => {
+      connection = null;
+      reject(request.error ?? new Error("IndexedDB open failed"));
+    };
   });
+  return connection;
 }
 
-function tx<T>(store: string, mode: IDBTransactionMode, run: (object: IDBObjectStore) => IDBRequest<T>): Promise<T> {
-  return openDatabase().then(
-    (db) =>
-      new Promise<T>((resolve, reject) => {
-        const transaction = db.transaction(store, mode);
-        const request = run(transaction.objectStore(store));
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error ?? new Error("IndexedDB request failed"));
-        transaction.oncomplete = () => db.close();
-      }),
-  );
+async function tx<T>(
+  store: string,
+  mode: IDBTransactionMode,
+  run: (object: IDBObjectStore) => IDBRequest<T>,
+): Promise<T> {
+  const db = await openDatabase();
+  return new Promise<T>((resolve, reject) => {
+    let result: T;
+    const transaction = db.transaction(store, mode);
+    const request = run(transaction.objectStore(store));
+    request.onsuccess = () => {
+      result = request.result;
+    };
+    request.onerror = () => reject(request.error ?? new Error("IndexedDB request failed"));
+    transaction.oncomplete = () => resolve(result);
+    transaction.onerror = () => reject(transaction.error ?? new Error("IndexedDB transaction failed"));
+    transaction.onabort = () => reject(transaction.error ?? new Error("IndexedDB transaction aborted"));
+  });
 }
 
 /** True when the browser can persist a library (private windows sometimes cannot). */
 export function storageAvailable(): boolean {
   try {
     return typeof indexedDB !== "undefined";
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Ask the browser not to evict this origin's data under storage pressure.
+ * Returns whether storage is now durable (false is normal on some engines).
+ */
+export async function requestPersistence(): Promise<boolean> {
+  try {
+    if (!navigator.storage?.persist) return false;
+    if (await navigator.storage.persisted?.()) return true;
+    return await navigator.storage.persist();
+  } catch {
+    return false;
+  }
+}
+
+export async function isPersisted(): Promise<boolean> {
+  try {
+    return (await navigator.storage?.persisted?.()) ?? false;
   } catch {
     return false;
   }
@@ -101,23 +154,55 @@ async function toArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   });
 }
 
+/**
+ * Persist one media payload.
+ *
+ * Stores the Blob itself when possible (no copy, instant object URLs); falls
+ * back to bytes only for engines that refuse Blob values.
+ */
 export async function putBlob(record: StoredBlob): Promise<void> {
-  const stored: BlobRecord = {
-    id: record.id,
-    data: await toArrayBuffer(record.blob),
-    type: record.blob.type,
-    fileName: record.fileName,
-  };
-  await tx(FILE_STORE, "readwrite", (store) => store.put(stored));
+  const base = { id: record.id, type: record.blob.type, fileName: record.fileName, size: record.blob.size };
+
+  if (!preferArrayBuffer) {
+    try {
+      await tx(FILE_STORE, "readwrite", (store) => store.put({ ...base, blob: record.blob } satisfies BlobRecord));
+      return;
+    } catch {
+      preferArrayBuffer = true;
+    }
+  }
+
+  const data = await toArrayBuffer(record.blob);
+  await tx(FILE_STORE, "readwrite", (store) => store.put({ ...base, data } satisfies BlobRecord));
 }
 
+/**
+ * Fetch a payload for playback.
+ *
+ * The returned Blob is a live reference for records stored as Blobs (no read of
+ * the whole file), and a lazily-backed Blob for the ArrayBuffer fallback.
+ */
 export async function getBlob(id: string): Promise<StoredBlob | undefined> {
   try {
     const record = await tx<BlobRecord | undefined>(FILE_STORE, "readonly", (store) => store.get(id));
-    if (!record?.data) return undefined;
-    return { id: record.id, fileName: record.fileName, blob: new Blob([record.data], { type: record.type }) };
+    if (!record) return undefined;
+    if (record.blob) return { id: record.id, fileName: record.fileName, blob: record.blob };
+    if (record.data) {
+      return { id: record.id, fileName: record.fileName, blob: new Blob([record.data], { type: record.type }) };
+    }
+    return undefined;
   } catch {
     return undefined;
+  }
+}
+
+/** Cheap existence check that never materialises the payload. */
+export async function hasBlob(id: string): Promise<boolean> {
+  try {
+    const key = await tx<IDBValidKey | undefined>(FILE_STORE, "readonly", (store) => store.getKey(id));
+    return key !== undefined;
+  } catch {
+    return false;
   }
 }
 

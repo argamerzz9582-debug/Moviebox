@@ -20,10 +20,11 @@ no server, no upload, no remote metadata.
 | --- | --- |
 | **Import** | Folder picker (File System Access API), multi-file picker, drag-and-drop anywhere, and `.zip` season packs. Walks sub-folders recursively. |
 | **Parsing** | Scene-release aware: `The.Bear.S02E05.1080p.WEB-DL.AAC.mkv` → show *The Bear*, S02E05, tags `1080p/web-dl/aac`. Strips release groups, bracketed tags, language suffixes. |
-| **Library** | One card per title; episodes of one show collapse into a single series entry. Generated gradient posters (deterministic per title) — no artwork needed, no network call. |
+| **Library** | One card per title; episodes of one show collapse into a single series entry. Generated gradient posters (deterministic per title) — no artwork needed, no network call. Grid **or** dense list view, favourites, quick watched toggle, storage meter. |
 | **Finding things** | Search across titles/years/tags, sort by recency/title/year/progress, filters (movies, series, continue, finished), and named collections. |
-| **Playback** | Native `<video>`: resume where you left off, auto-advance to the next episode, "Start over", keyboard control (`space` `←` `→` `↑` `↓` `f` `m` `esc`), fullscreen, buffered-range indicator. |
-| **Persistence** | IndexedDB. Metadata and media bytes live in separate stores, so progress ticks never rewrite gigabytes. Verifies the blob still exists before playback and says so if it does not. |
+| **Playback (v2)** | Native `<video>`: resume where you left off, auto-advance to the next episode, "Start over", keyboard control (`space` `←` `→` `↑` `↓` `f` `m` `esc`), fullscreen, buffered-range indicator. |
+| **Persistence** | IndexedDB. Metadata and payloads live in separate stores, so progress ticks never rewrite gigabytes. Payloads are stored as **Blobs**, not copies, so opening a 4 GB file is instant. |
+| **Resilience** | Storage persistence requested on first import; auto-reconnect for a closed connection; stall watchdog; explicit errors for missing payload, zero-byte file and unsupported codec. |
 | **PWA** | Installable (manifest + maskable icon), dark `theme-color`, `standalone` display. |
 
 Everything is client-side. There is no backend, no analytics, and no third-party request at
@@ -44,6 +45,29 @@ Notes for redeploys: the deployment is a plain static Vite build (`npm run build
 Vercel's automatic/per-deployment URLs (`cinematheque-<hash>-…vercel.app`) inherit the
 team's **Deployment Protection** and will ask for a Vercel login — the stable production
 alias above is the one to share.
+
+## Fixes in this pass (the "stuck / never plays" bugs)
+
+Two real defects, both found by reading the code rather than the UI:
+
+1. **Every playback pull copied the whole film into memory.** The payload was
+   stored as an `ArrayBuffer`, and `getBlob` rebuilt a `Blob` from it on every
+   open — two full-size allocations for a 2 GB file. The tab locks up, the
+   spinner never resolves, playback never starts. Payloads are now stored as
+   `Blob`s (a reference, not a copy), with the old ArrayBuffer format still
+   readable so existing libraries keep working. `hasBlob` now checks existence
+   without reading bytes at all.
+2. **A blocked autoplay left a black rectangle.** `video.play()` rejects with
+   `NotAllowedError` when there is no user gesture; the old code ignored the
+   promise, so the UI looked frozen. There is now a large play affordance, a
+   retry on click, a stall watchdog with a spinner after 12 s, and distinct
+   messages for a missing payload, a zero-byte file and an unsupported codec
+   (with "next episode" offered inline).
+
+Also fixed while in there: `Ctrl`/`Cmd`+`O` was advertised in the empty state but
+never implemented (it now opens the picker); drag-and-drop was registered twice
+(once in the import bar, once nowhere else); and the IndexedDB connection was
+re-opened per call and never survived a schema upgrade from another tab.
 
 ## Run it
 

@@ -5,6 +5,7 @@ const FILTERS: { key: FilterKey; label: string }[] = [
   { key: "movie", label: "Movies" },
   { key: "series", label: "Series" },
   { key: "inprogress", label: "Continue" },
+  { key: "favourites", label: "Favourites" },
   { key: "unwatched", label: "Not started" },
   { key: "watched", label: "Finished" },
 ];
@@ -75,10 +76,12 @@ function countByFilter(): Record<FilterKey, number> {
     unwatched: 0,
     inprogress: 0,
     watched: 0,
+    favourites: 0,
   };
   for (const title of state.titles) {
     if (title.kind === "movie") counts.movie += 1;
     if (title.kind === "series") counts.series += 1;
+    if (title.favourite) counts.favourites += 1;
     if (title.watched) counts.watched += 1;
     else if (title.progress > 0) counts.inprogress += 1;
     else counts.unwatched += 1;

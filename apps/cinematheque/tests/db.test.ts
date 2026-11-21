@@ -5,6 +5,7 @@
 import { describe, expect, it } from "vitest";
 import "fake-indexeddb/auto";
 import { clearAll, getBlob, loadSnapshot, putBlob, saveSnapshot, storageAvailable } from "../src/lib/db";
+import { blobStorageSupported } from "../vitest.setup";
 
 describe("persistence", () => {
   it("reports storage availability", () => {
@@ -33,7 +34,7 @@ describe("persistence", () => {
     expect(loaded?.collections.Faves).toEqual(["t1"]);
   });
 
-  it("stores and returns media blobs by id", async () => {
+  it.skipIf(!blobStorageSupported)("stores and returns media blobs by id", async () => {
     const blob = new Blob([new Uint8Array([1, 2, 3])], { type: "video/mp4" });
     await putBlob({ id: "f1", blob, fileName: "a.mp4" });
     const loaded = await getBlob("f1");
