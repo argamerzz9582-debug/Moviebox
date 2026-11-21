@@ -7,3 +7,7 @@ build/
 dist/
 *.egg-info/
 .DS_Store
+
+# Downloaded APK samples are evidence inputs, not source: never commit them.
+google_drive/
+*.apk

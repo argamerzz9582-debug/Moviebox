@@ -1,0 +1,1125 @@
+{
+  "apk": "google_drive/MovieBox_v4.0.04.1119.02_(50020134)_Mod_V2.apk",
+  "identity": {
+    "name": "MovieBox_v4.0.04.1119.02_(50020134)_Mod_V2.apk",
+    "size_bytes": 70166916,
+    "sha256": "6fdd667f53706b03c0c34b14296273be4fdc010447fcb636b5ce305d566aab45",
+    "entries": 6305,
+    "dex_files": [
+      "classes.dex",
+      "classes2.dex"
+    ],
+    "asset_count": 76,
+    "resource_count": 5946,
+    "uncompressed_bytes": 143952756,
+    "assets_of_interest": [
+      "assets/LYouKWv/arm64-v8a/libbqhvot.so",
+      "assets/LYouKWv/arm64-v8a/libsjqyxms.so",
+      "assets/LYouKWv/armeabi/libbqhvot.so",
+      "assets/LYouKWv/armeabi/libsjqyxms.so",
+      "assets/LYouKWv/x86/libbqhvot.so",
+      "assets/LYouKWv/x86/libsjqyxms.so",
+      "assets/LYouKWv/x86_64/libbqhvot.so",
+      "assets/LYouKWv/x86_64/libsjqyxms.so",
+      "assets/ShellJSBridge/byteh5bridge_v240815.aio.min.js",
+      "assets/WebViewJavascriptBridge.js",
+      "assets/appTab.json",
+      "assets/builddatas.json",
+      "assets/download_analyzing_anima.json",
+      "assets/download_analyzing_anima_night.json",
+      "assets/download_analyzing_success_anima.json",
+      "assets/download_analyzing_success_anima_night.json",
+      "assets/download_icon_status_anima_home.json",
+      "assets/download_icon_status_anima_home_fit.json",
+      "assets/download_icon_status_anima_home_fit_night.json",
+      "assets/hisavana_ab_data.json",
+      "assets/immersion_video_guide_swipe_more.json",
+      "assets/injectjavascript/bgm_fix_min.js",
+      "assets/injectjavascript/byteh5monitor.aio.min.js",
+      "assets/injectjavascript/byteh5prefetch.aio.min.js",
+      "assets/injectjavascript/byteh5privacy.aio.min.js",
+      "assets/injectjavascript/game_preformance_monitor_1_min.js",
+      "assets/loading.json",
+      "assets/local_mcc.json",
+      "assets/mbridge_download_dialog_view.xml",
+      "assets/mini_offline/100000/100000.json",
+      "assets/mini_offline/100000/100000.zip",
+      "assets/mini_offline/1000681057309249536/1000681057309249536.json",
+      "assets/mini_offline/1000681057309249536/1000681057309249536.zip",
+      "assets/post_video_res_playing.json",
+      "assets/room_top_tab.json",
+      "assets/rv_binddatas.xml",
+      "assets/sdk_country_cc_mcc.json",
+      "assets/skulist.json",
+      "assets/sub_def_la.json",
+      "assets/therouter/routeMap.json",
+      "assets/video_land_double_click_backward.json",
+      "assets/video_land_double_click_forward.json",
+      "assets/watch_info.js"
+    ],
+    "package": "com.community.oneroom",
+    "version_name": "4.0.04.1119.02",
+    "version_code": "50020134",
+    "app_label": "MovieBox",
+    "min_sdk": "23",
+    "target_sdk": "35",
+    "effective_target_sdk": 35,
+    "is_debuggable": false,
+    "allows_backup": false,
+    "uses_cleartext_traffic": "true",
+    "network_security_config": "@7F150009",
+    "features": [
+      "android.hardware.camera",
+      "android.hardware.camera.autofocus",
+      "android.hardware.camera.flash",
+      "android.hardware.camera.front",
+      "android.hardware.microphone",
+      "android.hardware.screen.landscape",
+      "android.hardware.wifi",
+      "android.hardware.wifi.direct"
+    ]
+  },
+  "signing": {
+    "schemes": [
+      "v2",
+      "v3"
+    ],
+    "certificates": [
+      {
+        "subject": "Common Name: IN",
+        "issuer": "Common Name: IN",
+        "serial": "1671896319",
+        "sha256": "1da5e08fffa51acf0ae1cab33b0878b3a386557a2de4d698cb65d9c722ea6d55",
+        "not_before": "2022-12-24 15:38:39+00:00",
+        "not_after": "2123-03-10 15:38:39+00:00",
+        "signature_algo": "rsassa_pkcs1v15"
+      }
+    ],
+    "apk_signer_names": []
+  },
+  "components": {
+    "activities": [
+      "com.android.billingclient.api.ProxyBillingActivity",
+      "com.blankj.utilcode.util.UtilsTransActivity",
+      "com.blankj.utilcode.util.UtilsTransActivity4MainProcess",
+      "com.bytedance.sdk.openadsdk.activity.TTAdActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTAppOpenAdActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTCeilingLandingPageActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTDelegateActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTFullScreenExpressVideoActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTFullScreenVideoActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTInterstitialActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTInterstitialExpressActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTLandingPageActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTPlayableLandingPageActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTRewardExpressVideoActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity",
+      "com.bytedance.sdk.openadsdk.activity.TTVideoLandingPageLink2Activity",
+      "com.bytedance.sdk.openadsdk.activity.TTWebsiteActivity",
+      "com.cloud.hisavana.sdk.common.activity.AdvertiserLinkActivity",
+      "com.cloud.hisavana.sdk.common.activity.AgentPageLandingActivity",
+      "com.cloud.hisavana.sdk.common.activity.EWOfficialActivity",
+      "com.cloud.hisavana.sdk.common.activity.HisavanaInterstitialRewardedActivity",
+      "com.cloud.hisavana.sdk.common.activity.HisavanaInterstitialTemplateActivity",
+      "com.cloud.hisavana.sdk.common.activity.HisavanaRewardedActivity",
+      "com.cloud.hisavana.sdk.common.activity.HisavanaRewardedTemplateActivity",
+      "com.cloud.hisavana.sdk.common.activity.HisavanaSplashActivity",
+      "com.cloud.hisavana.sdk.common.activity.MiniAppPopUpActivity",
+      "com.cloud.hisavana.sdk.common.activity.MiniAppSchemeActivity",
+      "com.cloud.hisavana.sdk.common.activity.OfflineLandingActivity",
+      "com.cloud.hisavana.sdk.common.activity.OnlineLandingActivity",
+      "com.cloud.hisavana.sdk.common.activity.OnlinePreloadLandingPageActivity",
+      "com.cloud.hisavana.sdk.common.activity.PersonalCloseAdActivity",
+      "com.cloud.hisavana.sdk.common.activity.TAdInterstitialActivity",
+      "com.cloud.hisavana.sdk.common.activity.TAdWebFormsActivity",
+      "com.cloud.tmc.miniapp.ad.WebviewAdFormActivity",
+      "com.cloud.tmc.miniapp.ad.WebviewAdLandingPageActivity",
+      "com.cloud.tmc.miniapp.ad.WebviewPersonalizationActivity",
+      "com.cloud.tmc.miniapp.ui.AppBrandProfileActivity",
+      "com.cloud.tmc.miniapp.ui.ImagePreviewActivity",
+      "com.cloud.tmc.miniapp.ui.ImageSelectActivity",
+      "com.cloud.tmc.miniapp.ui.MiniSchemaFilterActivity",
+      "com.cloud.tmc.miniapp.ui.WebViewActivity",
+      "com.cloud.tmc.miniapp.ui.multiprogress.MiniAppMiniProcessActivity",
+      "com.cloud.tmc.miniapp.ui.multiprogress.MiniSubActivity1",
+      "com.cloud.tmc.miniapp.ui.multiprogress.MiniSubActivity2",
+      "com.cloud.tmc.miniapp.ui.multiprogress.MiniSubActivity3",
+      "com.cloud.tmc.miniapp.ui.multiprogress.MiniSubActivity4",
+      "com.cloud.tmc.miniutils.util.UtilsTransActivity",
+      "com.cloud.tmc.miniutils.util.UtilsTransActivity4MainProcess",
+      "com.google.android.gms.ads.AdActivity",
+      "com.google.android.gms.auth.api.signin.internal.SignInHubActivity",
+      "com.google.android.gms.common.api.GoogleApiActivity",
+      "com.google.android.libraries.places.widget.AutocompleteActivity",
+      "com.google.android.play.core.common.PlayCoreDialogWrapperActivity",
+      "com.journeyapps.barcodescanner.CaptureActivity",
+      "com.mbridge.msdk.activity.MBCommonActivity",
+      "com.mbridge.msdk.newreward.player.MBRewardVideoActivity",
+      "com.mbridge.msdk.out.LoadingActivity",
+      "com.mbridge.msdk.reward.player.MBRewardVideoActivity",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_00",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_00_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_01",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_01_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_02",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_02_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_03",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_04",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_05",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_06",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_07",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_08",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTKStub_09",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_00",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_00_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_01",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_01_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_02",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_02_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_03",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_04",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_05",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_06",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_07",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_08",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SGTStub_09",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_00",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_00_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_01",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_01_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_02",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_02_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_03",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_04",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_05",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_06",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_07",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_08",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$SIStub_09",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_00",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_00_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_01",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_01_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_02",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_02_T",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_03",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_04",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_05",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_06",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_07",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_08",
+      "com.tencent.tinker.loader.hotplug.ActivityStubs$STDStub_09",
+      "com.tn.tranpay.activity.PayActivity",
+      "com.tn.tranpay.activity.TranPayTransparentActivity",
+      "com.tn.tranpay.activity.TranPayWebActivity",
+      "com.transsion.ad.bidding.h5.BiddingBuyOutH5AdSourceActivity",
+      "com.transsion.ad.bidding.interstitial.BiddingBuyOutBuyOutInterstitialHalfScreenActivity",
+      "com.transsion.ad.bidding.interstitial.BiddingBuyOutFullScreenInterstitialActivity",
+      "com.transsion.ad.bidding.interstitial.BiddingBuyOutInterstitialActionActivity",
+      "com.transsion.ad.bidding.interstitial.BiddingBuyOutInterstitialAutoFullScreenActivity",
+      "com.transsion.ad.bidding.splash.BiddingBuyOutSplashActivity",
+      "com.transsion.ad.bidding.splash.BiddingHisavanaSplashActivity",
+      "com.transsion.ad.bidding.video.BiddingBuyOutBuyOutVideoActivity",
+      "com.transsion.ad.bidding.video.BiddingBuyOutVideoAutoFullScreenActivity",
+      "com.transsion.ad.test.TestAdActivity",
+      "com.transsion.ad.test.ad_config.TestAdMccActivity",
+      "com.transsion.ad.test.ad_config.TestAdOtherConfigActivity",
+      "com.transsion.ad.test.ad_config.TestAdPlanDetailActivity",
+      "com.transsion.ad.test.ad_config.TestAdPlansActivity",
+      "com.transsion.ad.test.ad_config.TestAdPsOfferActivity",
+      "com.transsion.ad.test.ad_config.TestAdSceneActivity",
+      "com.transsion.ad.test.ad_example.TestAdAExampleActivity",
+      "com.transsion.ad.test.ad_example.TestAdBannerActivity",
+      "com.transsion.ad.test.ad_example.TestAdH5Activity",
+      "com.transsion.ad.test.ad_example.TestAdIconActivity",
+      "com.transsion.ad.test.ad_example.TestAdInterstitialActivity",
+      "com.transsion.ad.test.ad_example.TestAdIrregularViewActivity",
+      "com.transsion.ad.test.ad_example.TestAdNativeActivity",
+      "com.transsion.ad.test.ad_example.TestAdNativeListActivity",
+      "com.transsion.ad.test.ad_example.TestAdNativeMultipleActivity",
+      "com.transsion.ad.test.ad_example.TestAdNativeSspActivity",
+      "com.transsion.ad.test.ad_example.TestAdSplashActivity",
+      "com.transsion.ad.test.ad_example.TestAdVideoActivity",
+      "com.transsion.ad.test.ad_example.TestViewMeasureActivity",
+      "com.transsion.ad.web.AdWebActivity",
+      "com.transsion.ad.web.cct.CCTWebviewActivity",
+      "com.transsion.commercialization.aha.AhaGameAllActivity",
+      "com.transsion.edcation.history.EducationHistoryActivity",
+      "com.transsion.edcation.list.MyCourseListActivity",
+      "com.transsion.fission.FissionInvitationCodeActivity",
+      "com.transsion.home.activity.FilterActivity",
+      "com.transsion.home.activity.MovieFilterActivity",
+      "com.transsion.home.activity.OperateActivity",
+      "com.transsion.home.activity.RankAllActivity",
+      "com.transsion.home.activity.UGCFilmListActivity",
+      "com.transsion.home.activity.UGCFilterActivity",
+      "com.transsion.home.activity.UGCHashTagActivity",
+      "com.transsion.home.activity.UGCRankingActivity",
+      "com.transsion.home.category.CategoryActivity",
+      "com.transsion.home.category.PlayListActivity",
+      "com.transsion.home.tv.TvLiveDetailActivity",
+      "com.transsion.livesports.detail.ui.LiveSportsDetailActivity",
+      "com.transsion.livesports.ui.matches.MatchesContainerActivity",
+      "com.transsion.livesports.ui.matches.SeasonDetailActivity",
+      "com.transsion.livesports.ui.standings.StandingsContainerActivity",
+      "com.transsion.mbwidget.guide.WidgetGuideActivity",
+      "com.transsion.member.MemberActivity",
+      "com.transsion.member.history.PointsHistoryActivity",
+      "com.transsion.moviedetail.activity.MovieDetailActivity",
+      "com.transsion.moviedetail.activity.MoviePosterActivity",
+      "com.transsion.moviedetail.activity.SubjectListActivity",
+      "com.transsion.moviedetail.staff.MovieStaffActivity",
+      "com.transsion.mpush.core.activity.SdkPushClickActivity",
+      "com.transsion.ninegridview.preview.GifImagePreviewActivity",
+      "com.transsion.ninegridview.preview.ImagePreviewActivity",
+      "com.transsion.payment.lib.strategy.ui.PayWebActivity",
+      "com.transsion.player.longvideo.member.ResolutionUnlockActivity",
+      "com.transsion.player.longvideo.ui.TestLongVodActivity",
+      "com.transsion.postdetail.comment.ui.CommentListActivity",
+      "com.transsion.postdetail.myactivity.MyActivityActivity",
+      "com.transsion.postdetail.ui.activity.LocalVideoDetailActivity",
+      "com.transsion.postdetail.ui.activity.PostDetailActivity"
+    ],
+    "services": [
+      "androidx.media3.exoplayer.scheduler.PlatformScheduler$PlatformSchedulerService",
+      "androidx.room.MultiInstanceInvalidationService",
+      "androidx.work.impl.background.systemjob.SystemJobService",
+      "androidx.work.impl.foreground.SystemForegroundService",
+      "com.blankj.utilcode.util.MessengerUtils$ServerService",
+      "com.bytedance.sdk.openadsdk.multipro.aidl.BinderPoolService",
+      "com.cloud.h5update.service.LocalH5UpdateJobService",
+      "com.cloud.h5update.service.LocalH5UpdateService",
+      "com.cloud.tmc.component_api_ps.ipc.service.MiniAppProtocolMainService",
+      "com.cloud.tmc.miniapp.bluetooth.BLEService",
+      "com.cloud.tmc.miniapp.ipc.IpcMiniLauncherService",
+      "com.cloud.tmc.miniapp.ipc.IpcMiniPSService",
+      "com.cloud.tmc.miniapp.ipc.multiprogress.IpcMainProcessClientService",
+      "com.cloud.tmc.miniapp.ipc.multiprogress.IpcMiniProcessClientService",
+      "com.google.android.datatransport.runtime.backends.TransportBackendDiscovery",
+      "com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService",
+      "com.google.android.gms.auth.api.signin.RevocationBoundService",
+      "com.google.android.gms.measurement.AppMeasurementJobService",
+      "com.google.android.gms.measurement.AppMeasurementService",
+      "com.google.firebase.components.ComponentDiscoveryService",
+      "com.google.firebase.messaging.FirebaseMessagingService",
+      "com.tencent.tinker.lib.service.DefaultTinkerResultService",
+      "com.tencent.tinker.lib.service.TinkerPatchForeService",
+      "com.tencent.tinker.lib.service.TinkerPatchService",
+      "com.tencent.tinker.lib.service.TinkerPatchService$InnerService",
+      "com.transsion.al.ka.AccountService",
+      "com.transsion.al.ka.AccountSyncService",
+      "com.transsion.athena.aidl.AthenaTrackService",
+      "com.transsion.mpush.core.service.SdkNotificationRefreshService",
+      "com.transsion.player.exo.DemoDownloadService",
+      "com.transsion.player.mediasession.MediaService",
+      "com.transsion.publish.PublishService",
+      "com.transsion.push.broadcast.FCMMessageService",
+      "com.transsion.push.service.PushJobIntentService",
+      "com.transsion.tinker.lib.custom.service.CustomResultService",
+      "com.transsnet.downloader.core.ForegroundService",
+      "com.transsnet.downloader.guard.DownloadGuardService",
+      "com.wecloud.load.lib.SoLoadService"
+    ],
+    "receivers": [
+      "androidx.profileinstaller.ProfileInstallReceiver",
+      "androidx.work.impl.background.systemalarm.RescheduleReceiver",
+      "androidx.work.impl.diagnostics.DiagnosticsReceiver",
+      "androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver",
+      "com.cloud.tmc.integration.broadcast.ShortCutBroadcast",
+      "com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver",
+      "com.google.android.gms.measurement.AppMeasurementReceiver",
+      "com.google.firebase.iid.FirebaseInstanceIdReceiver",
+      "com.mbridge.msdk.foundation.same.broadcast.NetWorkChangeReceiver",
+      "com.transsion.al.ka.BootReceiver",
+      "com.transsion.mbwidget.HotSubjectWidgetProvider",
+      "com.transsion.mbwidget.PlayWidgetProvider",
+      "com.transsion.mbwidget.SportSchedulePreviewWidgetProvider",
+      "com.transsion.mbwidget.data.SportWidgetRefreshReceiver",
+      "com.transsion.mbwidget.guide.WidgetCallbackReceiver",
+      "com.transsion.mpush.core.trigger.PushTriggerReceiver",
+      "com.transsion.player.mediasession.MusicIntentReceiver",
+      "com.transsion.player.mediasession.MusicNotificationBroadcastReceiver",
+      "com.transsion.push.broadcast.HandlerBroadcastReceiver"
+    ],
+    "providers": [
+      "androidx.core.content.FileProvider",
+      "androidx.startup.InitializationProvider",
+      "com.blankj.utilcode.util.UtilsFileProvider",
+      "com.cloud.hisavana.sdk.common.HisavanaFileProvider",
+      "com.cloud.hisavana.sdk.database.HisavanaContentProvider",
+      "com.google.firebase.provider.FirebaseInitProvider",
+      "com.hisavana.mediation.config.ConfigContentProvider",
+      "com.noober.background.BackgroundContentProvider",
+      "com.therouter.InnerTheRouterContentProvider",
+      "com.transsion.al.ka.AccountSyncContentProvider",
+      "com.transsion.al.ka.FastCleanerProvider",
+      "com.vungle.ads.VungleProvider"
+    ],
+    "main_activity": "com.transsion.subroom.activity.SplashActivity",
+    "exported_activities": [
+      "com.cloud.tmc.miniapp.ui.MiniSchemaFilterActivity",
+      "com.tn.tranpay.activity.PayActivity",
+      "com.transsion.mpush.core.activity.SdkPushClickActivity",
+      "com.transsion.postdetail.ui.activity.LocalVideoDetailActivity",
+      "com.transsion.pushui.activity.PushActivity",
+      "com.transsion.rewardscenter.ui.ClaimRewardActivity",
+      "com.transsion.rewardscenter.ui.RewardsCenterActivity",
+      "com.transsion.spwaitkiller.test.TestSpWaitActivity",
+      "com.transsion.subroom.activity.MainActivity",
+      "com.transsion.subroom.activity.SplashActivity",
+      "com.transsion.subroom.deeplink.DeepLinkHandler",
+      "com.transsion.ugcvideodetail.activity.UGCLocalVideoDetailActivity"
+    ],
+    "exported_services": [
+      "androidx.media3.exoplayer.scheduler.PlatformScheduler$PlatformSchedulerService",
+      "androidx.work.impl.background.systemjob.SystemJobService",
+      "com.cloud.tmc.component_api_ps.ipc.service.MiniAppProtocolMainService",
+      "com.cloud.tmc.miniapp.ipc.IpcMiniLauncherService",
+      "com.cloud.tmc.miniapp.ipc.IpcMiniPSService",
+      "com.google.android.gms.auth.api.signin.RevocationBoundService",
+      "com.transsion.al.ka.AccountService",
+      "com.transsion.al.ka.AccountSyncService",
+      "com.transsion.player.mediasession.MediaService",
+      "com.transsion.push.service.PushJobIntentService"
+    ],
+    "exported_receivers": [
+      "androidx.profileinstaller.ProfileInstallReceiver",
+      "androidx.work.impl.diagnostics.DiagnosticsReceiver",
+      "com.google.firebase.iid.FirebaseInstanceIdReceiver",
+      "com.mbridge.msdk.foundation.same.broadcast.NetWorkChangeReceiver",
+      "com.transsion.al.ka.BootReceiver",
+      "com.transsion.mbwidget.HotSubjectWidgetProvider",
+      "com.transsion.mbwidget.PlayWidgetProvider",
+      "com.transsion.mbwidget.SportSchedulePreviewWidgetProvider",
+      "com.transsion.mbwidget.guide.WidgetCallbackReceiver",
+      "com.transsion.mpush.core.trigger.PushTriggerReceiver",
+      "com.transsion.player.mediasession.MusicIntentReceiver"
+    ],
+    "permissions_declared": [
+      "com.community.oneroom.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ]
+  },
+  "permissions": {
+    "count": 57,
+    "permissions": [
+      "android.permission.ACCESS_ADSERVICES_AD_ID",
+      "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
+      "android.permission.ACCESS_COARSE_LOCATION",
+      "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.ACCESS_MEDIA_LOCATION",
+      "android.permission.ACCESS_NETWORK_STATE",
+      "android.permission.ACCESS_NOTIFICATION_POLICY",
+      "android.permission.ACCESS_WIFI_STATE",
+      "android.permission.AUTHENTICATE_ACCOUNTS",
+      "android.permission.CAMERA",
+      "android.permission.CHANGE_NETWORK_STATE",
+      "android.permission.CHANGE_WIFI_STATE",
+      "android.permission.DISABLE_KEYGUARD",
+      "android.permission.FOREGROUND_SERVICE",
+      "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+      "android.permission.FPOST_NOTIFICATIONS",
+      "android.permission.GET_ACCOUNTS",
+      "android.permission.INTERNET",
+      "android.permission.MANAGE_WIFI_NETWORK_SELECTION",
+      "android.permission.NEARBY_WIFI_DEVICES",
+      "android.permission.POST_NOTIFICATIONS",
+      "android.permission.READ_CALENDAR",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.READ_MEDIA_AUDIO",
+      "android.permission.READ_MEDIA_IMAGES",
+      "android.permission.READ_MEDIA_VIDEO",
+      "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "android.permission.READ_SETTINGS",
+      "android.permission.READ_SYNC_SETTINGS",
+      "android.permission.RECEIVE_BOOT_COMPLETED",
+      "android.permission.RECORD_AUDIO",
+      "android.permission.REORDER_TASKS",
+      "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS",
+      "android.permission.REQUEST_INSTALL_PACKAGES",
+      "android.permission.SYSTEM_ALERT_WINDOW",
+      "android.permission.USE_FULL_SCREEN_INTENT",
+      "android.permission.VIBRATE",
+      "android.permission.WAKE_LOCK",
+      "android.permission.WRITE_CALENDAR",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.WRITE_SETTINGS",
+      "android.permission.WRITE_SYNC_SETTINGS",
+      "com.android.launcher.permission.INSTALL_SHORTCUT",
+      "com.android.vending.BILLING",
+      "com.community.oneroom.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+      "com.google.android.c2dm.permission.RECEIVE",
+      "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE",
+      "com.google.android.gms.permission.AD_ID",
+      "com.google.android.providers.gsf.permission.READ_GSERVICES",
+      "com.huawei.android.launcher.permission.CHANGE_BADGE",
+      "com.sec.android.provider.badge.permission.READ",
+      "com.sec.android.provider.badge.permission.WRITE",
+      "com.transsion.dataservice.permission.READ",
+      "com.transsion.dataservice.permission.WRITE",
+      "com.transsion.tpush.permission.READ_PROVIDER",
+      "com.transsion.tpush.permission.WRITE_PROVIDER",
+      "com.vivo.notification.permission.BADGE_ICON"
+    ],
+    "risk": [
+      {
+        "permission": "android.permission.ACCESS_COARSE_LOCATION",
+        "note": "approximate location"
+      },
+      {
+        "permission": "android.permission.ACCESS_FINE_LOCATION",
+        "note": "precise location"
+      },
+      {
+        "permission": "android.permission.ACCESS_NETWORK_STATE",
+        "note": "network state"
+      },
+      {
+        "permission": "android.permission.CAMERA",
+        "note": "camera"
+      },
+      {
+        "permission": "android.permission.FOREGROUND_SERVICE",
+        "note": "long-running background service"
+      },
+      {
+        "permission": "android.permission.GET_ACCOUNTS",
+        "note": "enumerates accounts"
+      },
+      {
+        "permission": "android.permission.INTERNET",
+        "note": "network access"
+      },
+      {
+        "permission": "android.permission.NEARBY_WIFI_DEVICES",
+        "note": "Wi-Fi device scanning"
+      },
+      {
+        "permission": "android.permission.POST_NOTIFICATIONS",
+        "note": "posts notifications"
+      },
+      {
+        "permission": "android.permission.READ_EXTERNAL_STORAGE",
+        "note": "reads shared storage"
+      },
+      {
+        "permission": "android.permission.RECEIVE_BOOT_COMPLETED",
+        "note": "auto-starts on boot"
+      },
+      {
+        "permission": "android.permission.RECORD_AUDIO",
+        "note": "microphone"
+      },
+      {
+        "permission": "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS",
+        "note": "exempts itself from battery limits"
+      },
+      {
+        "permission": "android.permission.REQUEST_INSTALL_PACKAGES",
+        "note": "can prompt APK sideload (dropper vector)"
+      },
+      {
+        "permission": "android.permission.SYSTEM_ALERT_WINDOW",
+        "note": "draw over other apps (overlay/phishing vector)"
+      },
+      {
+        "permission": "android.permission.WAKE_LOCK",
+        "note": "keeps CPU awake"
+      },
+      {
+        "permission": "android.permission.WRITE_EXTERNAL_STORAGE",
+        "note": "writes shared storage"
+      }
+    ],
+    "custom_or_signature": [
+      "com.android.launcher.permission.INSTALL_SHORTCUT",
+      "com.android.vending.BILLING",
+      "com.community.oneroom.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+      "com.google.android.c2dm.permission.RECEIVE",
+      "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE",
+      "com.google.android.gms.permission.AD_ID",
+      "com.google.android.providers.gsf.permission.READ_GSERVICES",
+      "com.huawei.android.launcher.permission.CHANGE_BADGE",
+      "com.sec.android.provider.badge.permission.READ",
+      "com.sec.android.provider.badge.permission.WRITE",
+      "com.transsion.dataservice.permission.READ",
+      "com.transsion.dataservice.permission.WRITE",
+      "com.transsion.tpush.permission.READ_PROVIDER",
+      "com.transsion.tpush.permission.WRITE_PROVIDER",
+      "com.vivo.notification.permission.BADGE_ICON"
+    ],
+    "flags": []
+  },
+  "sdk_fingerprints": [
+    {
+      "sdk": "Kotlin stdlib",
+      "category": "framework",
+      "match": "kotlin."
+    },
+    {
+      "sdk": "OkHttp",
+      "category": "network",
+      "match": "okhttp3"
+    },
+    {
+      "sdk": "Retrofit",
+      "category": "network",
+      "match": "retrofit2"
+    }
+  ],
+  "ad_networks": [],
+  "libraries": [
+    "android.ext.adservices",
+    "androidx.window.extensions",
+    "androidx.window.sidecar",
+    "org.apache.http.legacy"
+  ],
+  "native_libs": [
+    {
+      "path": "assets/LYouKWv/arm64-v8a/libbqhvot.so",
+      "abi": "LYouKWv",
+      "size": 816280,
+      "sha256": "2d62d8b7e4b9413462b5b21ed1a4a8ac"
+    },
+    {
+      "path": "assets/LYouKWv/arm64-v8a/libsjqyxms.so",
+      "abi": "LYouKWv",
+      "size": 216256,
+      "sha256": "584657d25c27fb7844a4e9825b143c4a"
+    },
+    {
+      "path": "assets/LYouKWv/armeabi/libbqhvot.so",
+      "abi": "LYouKWv",
+      "size": 529384,
+      "sha256": "87853817abc711c6397426fd6c0ebe00"
+    },
+    {
+      "path": "assets/LYouKWv/armeabi/libsjqyxms.so",
+      "abi": "LYouKWv",
+      "size": 134992,
+      "sha256": "b72cc79007c2acf9d929f41e98e7393b"
+    },
+    {
+      "path": "assets/LYouKWv/x86/libbqhvot.so",
+      "abi": "LYouKWv",
+      "size": 713152,
+      "sha256": "de5cad92161bb18261e38e15d3fbfc3f"
+    },
+    {
+      "path": "assets/LYouKWv/x86/libsjqyxms.so",
+      "abi": "LYouKWv",
+      "size": 134992,
+      "sha256": "ae9b0b66cce65d24a0958a22085665b1"
+    },
+    {
+      "path": "assets/LYouKWv/x86_64/libbqhvot.so",
+      "abi": "LYouKWv",
+      "size": 870576,
+      "sha256": "6b9abd82402bc9a2205a0a4b277b9045"
+    },
+    {
+      "path": "assets/LYouKWv/x86_64/libsjqyxms.so",
+      "abi": "LYouKWv",
+      "size": 232656,
+      "sha256": "870fd292c6dce0231cac910e15148908"
+    },
+    {
+      "path": "lib/arm64-v8a/libalivcffmpeg.so",
+      "abi": "arm64-v8a",
+      "size": 4871800,
+      "sha256": "2d24ec09c43650b8ba02abe832badf3e"
+    },
+    {
+      "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "abi": "arm64-v8a",
+      "size": 10096,
+      "sha256": "41e9a793c43a0f4fddb19e33f346bace"
+    },
+    {
+      "path": "lib/arm64-v8a/libapminsighta.so",
+      "abi": "arm64-v8a",
+      "size": 102256,
+      "sha256": "b1a70dabf68e95e1910bb080dbe1c78a"
+    },
+    {
+      "path": "lib/arm64-v8a/libapminsightb.so",
+      "abi": "arm64-v8a",
+      "size": 124352,
+      "sha256": "c36885b7189dc5173627ff9afb5a49cb"
+    },
+    {
+      "path": "lib/arm64-v8a/libavcodec.so",
+      "abi": "arm64-v8a",
+      "size": 4025264,
+      "sha256": "836923d5ada39aba5ea5b771d53a01cc"
+    },
+    {
+      "path": "lib/arm64-v8a/libavformat.so",
+      "abi": "arm64-v8a",
+      "size": 2515232,
+      "sha256": "bf31390e89e99623e326d7fdb582e3f2"
+    },
+    {
+      "path": "lib/arm64-v8a/libavutil.so",
+      "abi": "arm64-v8a",
+      "size": 593336,
+      "sha256": "de202ca750a7528695fcfaf574adf7d8"
+    },
+    {
+      "path": "lib/arm64-v8a/libbuffer_pgl.so",
+      "abi": "arm64-v8a",
+      "size": 9000,
+      "sha256": "d416381c202993e4a03fd6ae0c5b407f"
+    },
+    {
+      "path": "lib/arm64-v8a/libcrashlytics-common.so",
+      "abi": "arm64-v8a",
+      "size": 755864,
+      "sha256": "db3c33bc6e1c0d049466280c32bd7419"
+    },
+    {
+      "path": "lib/arm64-v8a/libcrashlytics-handler.so",
+      "abi": "arm64-v8a",
+      "size": 185960,
+      "sha256": "810521d2e125c4f87a8bd5fa70e73877"
+    },
+    {
+      "path": "lib/arm64-v8a/libcrashlytics-trampoline.so",
+      "abi": "arm64-v8a",
+      "size": 9584,
+      "sha256": "b3d2d4bd3eb068ed624d406d8626b730"
+    },
+    {
+      "path": "lib/arm64-v8a/libcrashlytics.so",
+      "abi": "arm64-v8a",
+      "size": 195568,
+      "sha256": "cad4bd6e1a6fb97cea9d02ac3f2c9c0e"
+    },
+    {
+      "path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+      "abi": "arm64-v8a",
+      "size": 7112,
+      "sha256": "d3e48717c9aa147e0ab21063ba0e8e02"
+    },
+    {
+      "path": "lib/arm64-v8a/libfile_lock_pgl.so",
+      "abi": "arm64-v8a",
+      "size": 6312,
+      "sha256": "d14096b150b4b2f21263fdb4f1c61eea"
+    },
+    {
+      "path": "lib/arm64-v8a/libgav1JNI.so",
+      "abi": "arm64-v8a",
+      "size": 1586992,
+      "sha256": "b6cb36bb52d11e8391daf642c67fb9b4"
+    },
+    {
+      "path": "lib/arm64-v8a/libglide-webp.so",
+      "abi": "arm64-v8a",
+      "size": 317776,
+      "sha256": "3ebf41cedfec3d522a2650a45927b99d"
+    },
+    {
+      "path": "lib/arm64-v8a/libhxpatch.so",
+      "abi": "arm64-v8a",
+      "size": 15312,
+      "sha256": "376297e9fe219e30a6f13d7bcfe2014a"
+    },
+    {
+      "path": "lib/arm64-v8a/libimg_utils.so",
+      "abi": "arm64-v8a",
+      "size": 63888,
+      "sha256": "50abbe8ef2b757bc4ecf3f4e93d5190c"
+    },
+    {
+      "path": "lib/arm64-v8a/libmedia3ext.so",
+      "abi": "arm64-v8a",
+      "size": 233864,
+      "sha256": "6f0a78bde01787175195de84908640b5"
+    },
+    {
+      "path": "lib/arm64-v8a/libmediainfo.so",
+      "abi": "arm64-v8a",
+      "size": 18560,
+      "sha256": "056bb6a5ca12e2e56a8db197e67443e1"
+    },
+    {
+      "path": "lib/arm64-v8a/libmmkv.so",
+      "abi": "arm64-v8a",
+      "size": 597000,
+      "sha256": "03b2eebd01184582fa0a17dd5a1d18fc"
+    },
+    {
+      "path": "lib/arm64-v8a/libnms.so",
+      "abi": "arm64-v8a",
+      "size": 292680,
+      "sha256": "ce6aefab7367f0abe3a5054ee05b5f6c"
+    },
+    {
+      "path": "lib/arm64-v8a/libor_signal.so",
+      "abi": "arm64-v8a",
+      "size": 29576,
+      "sha256": "1566f1345e632aff9aef039ee98723c6"
+    },
+    {
+      "path": "lib/arm64-v8a/libpglarmor.so",
+      "abi": "arm64-v8a",
+      "size": 68776,
+      "sha256": "69218eb7accd450feb707bfe9fa6533c"
+    },
+    {
+      "path": "lib/arm64-v8a/libsaasCorePlayer.so",
+      "abi": "arm64-v8a",
+      "size": 4170376,
+      "sha256": "6e18600a453d3cfa3e0e3d90ed3e1c95"
+    },
+    {
+      "path": "lib/arm64-v8a/libsaasDownloader.so",
+      "abi": "arm64-v8a",
+      "size": 264384,
+      "sha256": "c936487e901faa9fedae360cfc53cf23"
+    },
+    {
+      "path": "lib/arm64-v8a/libswresample.so",
+      "abi": "arm64-v8a",
+      "size": 89232,
+      "sha256": "e7185698d3b2b3632b01ab2cd78bbca4"
+    },
+    {
+      "path": "lib/arm64-v8a/libswscale.so",
+      "abi": "arm64-v8a",
+      "size": 602744,
+      "sha256": "e21b971ecdc7daa3a47597824e150d93"
+    },
+    {
+      "path": "lib/arm64-v8a/libtobEmbedPagEncrypt.so",
+      "abi": "arm64-v8a",
+      "size": 8304,
+      "sha256": "d1a8cbbcd4982679b44c5e8cb5480526"
+    },
+    {
+      "path": "lib/arm64-v8a/libtt_ugen_layout.so",
+      "abi": "arm64-v8a",
+      "size": 360968,
+      "sha256": "05ddb584447d49f6ac1707d00ab557ac"
+    },
+    {
+      "path": "lib/armeabi-v7a/libalivcffmpeg.so",
+      "abi": "armeabi-v7a",
+      "size": 4079456,
+      "sha256": "bc00a4f721cea5ea794efcab8046decd"
+    },
+    {
+      "path": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+      "abi": "armeabi-v7a",
+      "size": 7252,
+      "sha256": "41399eba6fc2a60f6f14642375c1824f"
+    },
+    {
+      "path": "lib/armeabi-v7a/libapminsighta.so",
+      "abi": "armeabi-v7a",
+      "size": 85512,
+      "sha256": "bb08cd264170375bb94ac11ec08fb3c1"
+    },
+    {
+      "path": "lib/armeabi-v7a/libapminsightb.so",
+      "abi": "armeabi-v7a",
+      "size": 100368,
+      "sha256": "ffae9546e59fc4e136dc9cfd54451a13"
+    },
+    {
+      "path": "lib/armeabi-v7a/libavcodec.so",
+      "abi": "armeabi-v7a",
+      "size": 3795872,
+      "sha256": "16ef222bad4a38f1314aaf58750e0155"
+    },
+    {
+      "path": "lib/armeabi-v7a/libavformat.so",
+      "abi": "armeabi-v7a",
+      "size": 2050488,
+      "sha256": "24bcfcc38d0eb7c2ad73f1a206dc2006"
+    },
+    {
+      "path": "lib/armeabi-v7a/libavutil.so",
+      "abi": "armeabi-v7a",
+      "size": 588504,
+      "sha256": "02cd4eb1a95344bd8ed909875009c616"
+    },
+    {
+      "path": "lib/armeabi-v7a/libbuffer_pgl.so",
+      "abi": "armeabi-v7a",
+      "size": 6580,
+      "sha256": "1959f8616e7ed8ae3a4c4edc4bb557c5"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcrashlytics-common.so",
+      "abi": "armeabi-v7a",
+      "size": 435732,
+      "sha256": "4b8bcec5c0464d7b1741386e30eef930"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcrashlytics-handler.so",
+      "abi": "armeabi-v7a",
+      "size": 87908,
+      "sha256": "f58fca61975d2450e8bef2bc4b0ea68e"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcrashlytics-trampoline.so",
+      "abi": "armeabi-v7a",
+      "size": 6912,
+      "sha256": "5366393c1292cfb5c8b49bf846e644f8"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcrashlytics.so",
+      "abi": "armeabi-v7a",
+      "size": 94540,
+      "sha256": "be0dedcd52a35e717ec0eeb832108e42"
+    },
+    {
+      "path": "lib/armeabi-v7a/libdatastore_shared_counter.so",
+      "abi": "armeabi-v7a",
+      "size": 4416,
+      "sha256": "716c5d8d2cac8ca0edf65da8f139c788"
+    },
+    {
+      "path": "lib/armeabi-v7a/libfile_lock_pgl.so",
+      "abi": "armeabi-v7a",
+      "size": 4704,
+      "sha256": "f9e3402f0cff891a4dcf38e7c1876c88"
+    },
+    {
+      "path": "lib/armeabi-v7a/libgav1JNI.so",
+      "abi": "armeabi-v7a",
+      "size": 1563524,
+      "sha256": "e32cc1d2bcf147e858ab3cc4d4b69e92"
+    },
+    {
+      "path": "lib/armeabi-v7a/libglide-webp.so",
+      "abi": "armeabi-v7a",
+      "size": 227092,
+      "sha256": "6bf3126b0935812d4474f89f698d156b"
+    },
+    {
+      "path": "lib/armeabi-v7a/libimg_utils.so",
+      "abi": "armeabi-v7a",
+      "size": 50084,
+      "sha256": "dedc8133f6d8d84a4dc7041b16fb8608"
+    },
+    {
+      "path": "lib/armeabi-v7a/libmedia3ext.so",
+      "abi": "armeabi-v7a",
+      "size": 120696,
+      "sha256": "5ce9aa4e253b5fd166d52145805297ae"
+    },
+    {
+      "path": "lib/armeabi-v7a/libmediainfo.so",
+      "abi": "armeabi-v7a",
+      "size": 15132,
+      "sha256": "0d8d435efeb5a2fc8059b3707fdde7a7"
+    },
+    {
+      "path": "lib/armeabi-v7a/libmmkv.so",
+      "abi": "armeabi-v7a",
+      "size": 371332,
+      "sha256": "0950326b9c9d53373f3117cbb6f6f07d"
+    },
+    {
+      "path": "lib/armeabi-v7a/libnms.so",
+      "abi": "armeabi-v7a",
+      "size": 193656,
+      "sha256": "1f33c6b4f98baa11ac7058ea59fc4234"
+    },
+    {
+      "path": "lib/armeabi-v7a/libor_signal.so",
+      "abi": "armeabi-v7a",
+      "size": 26840,
+      "sha256": "b864011dc88c1164c43c0f624285a346"
+    },
+    {
+      "path": "lib/armeabi-v7a/libpglarmor.so",
+      "abi": "armeabi-v7a",
+      "size": 47100,
+      "sha256": "26c29311485d8a9306761ed7451f6e7b"
+    },
+    {
+      "path": "lib/armeabi-v7a/libsaasCorePlayer.so",
+      "abi": "armeabi-v7a",
+      "size": 2816360,
+      "sha256": "b8bccb8b392fa4cd6e4306d15fd3ee10"
+    },
+    {
+      "path": "lib/armeabi-v7a/libsaasDownloader.so",
+      "abi": "armeabi-v7a",
+      "size": 190092,
+      "sha256": "67099752b269826fd2c42a3bf7e1d59b"
+    },
+    {
+      "path": "lib/armeabi-v7a/libswresample.so",
+      "abi": "armeabi-v7a",
+      "size": 83036,
+      "sha256": "1d6a4a3c0718795ed40f2d281b448ec2"
+    },
+    {
+      "path": "lib/armeabi-v7a/libswscale.so",
+      "abi": "armeabi-v7a",
+      "size": 533048,
+      "sha256": "de15085736e7e670d40d91e5c75db9d0"
+    },
+    {
+      "path": "lib/armeabi-v7a/libtobEmbedPagEncrypt.so",
+      "abi": "armeabi-v7a",
+      "size": 5860,
+      "sha256": "a76bf5450ec359d6412c8b4b7be49e1a"
+    },
+    {
+      "path": "lib/armeabi-v7a/libtt_ugen_layout.so",
+      "abi": "armeabi-v7a",
+      "size": 222336,
+      "sha256": "481afcbe3dd231851a0ab2571ee2be15"
+    }
+  ],
+  "bytecode": {
+    "dex_count": 2,
+    "dex_bytes": 64552424,
+    "classes": 220,
+    "methods": 973,
+    "external_classes": 112,
+    "dex_objects": 2,
+    "raw_scan_bytes": 838455
+  },
+  "sensitive_apis": [
+    {
+      "api": "reflect",
+      "meaning": "dynamic reflection dispatch",
+      "match": "Ljava/lang/reflect/Method;->invoke"
+    },
+    {
+      "api": "sharedprefs",
+      "meaning": "plaintext prefs writes",
+      "match": "Landroid/content/SharedPreferences$Editor;->putString"
+    },
+    {
+      "api": "hashing-md5",
+      "meaning": "hashing (fingerprints/keys)",
+      "match": "Ljava/security/MessageDigest;->getInstance"
+    },
+    {
+      "api": "httpurlconnection",
+      "meaning": "HTTP requests",
+      "match": "Ljava/net/HttpURLConnection;->"
+    }
+  ],
+  "indicators": {
+    "urls": [
+      "http://127.0.0.1",
+      "http://127.0.0.1:47291/dash/",
+      "http://schemas.android.com/apk/res-auto",
+      "http://schemas.android.com/apk/res/android",
+      "https://app-oss.byte-app.com/app/apppackage/100000/12.0.1_2ca0b0479157478e80b2041fcbeea2a4.zip",
+      "https://app-oss.byte-app.com/app/apppackage/1000681057309249536/0.0.12_92ff4ec37f49436c8903390a76dcec8f.zip",
+      "https://app-oss.byte-app.com/platform/register/app/logo/42b0d4c52e2142d8b24f5696d2c2e95c.png",
+      "https://app-oss.byte-app.com/platform/register/app/logo/9bdc845d05d7402d99a671de9ef648af.jpg?x-oss-process=image/resize,m_fill,w_200,h_200",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/04494deba9472a1cfb195ebde4e6ca74.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/2cc017c14374a5d5ee7505b9ad39aec9.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/3559cbbc388c3ef330a6ae8531eb79ee.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/9581a2ca2e2e70337bb718ede3e3b38b.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/a2a788f15efd831f6fbb70193aaa3757.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/a468a92871d008b8eeea63e591669d14.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/bb7a0174a71e44ed691fb3aebd217139.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/e98c2791d579f1563db33c50c8c97f6a.png",
+      "https://pbcdn.aoneroom.com/image/2025/03/12/fd42e3cfb5f51febec6f0b53f1d9ce61.png",
+      "https://pbcdn.aoneroom.com/image/2025/09/22/acd11a61e79d8c2d8139b205bddc0f91.png",
+      "https://pbcdn.aoneroom.com/image/2025/09/23/09c65d9f85c8387e7bd010641e2a5041.png",
+      "https://pbcdn.aoneroom.com/image/2026/04/29/aa7d0111fc824a23eea48d7c517c0f32.gif",
+      "https://pbcdn.aoneroom.com/image/2026/06/26/40a5b6d741781462ba6820cf076e26b3.png",
+      "https://pbcdn.aoneroom.com/image/2026/06/26/677c4d49f04996fd090c6040a76f36d8.png",
+      "https://pbcdn.aoneroom.com/image/2026/09/15/bee6e0d1892dbb73673596f5c67ffb69.gif",
+      "https://pbcdn.aoneroom.com/image/2026/10/14/1fccffbf2218eff5c1dee3d28027a4b8.png",
+      "https://pbcdn.aoneroom.com/image/2026/10/14/ddf1a8c41000b3b8c15a5d17da9fce08.png",
+      "https://sportsnow.top/?currentTagId=0&currentTagName=&from=home_top_tab&utm_source=mb_app_inner",
+      "https://test-acdn.aoneroom.com/image/2024/04/09/043c53d69fdba41be0bbd9478cffb723.webp",
+      "https://test-acdn.aoneroom.com/image/2024/04/09/39ceb3464701ab4acf649bea5c4ae055.webp",
+      "https://test-acdn.aoneroom.com/image/2024/04/09/4bf43297a86d87b03c12f64f9e1f3a2c.webp",
+      "https://waje.bet/activity/landing/cbc831?is_lazy_load=true"
+    ],
+    "hosts": [
+      "127.0.0.1"
+    ],
+    "domains": [
+      "android.app",
+      "aoneroom.com",
+      "api3.aoneroom.com",
+      "api4.aoneroom.com",
+      "api4sg.aoneroom.com",
+      "api5.aoneroom.com",
+      "api6.aoneroom.com",
+      "app-oss.byte-app.com",
+      "com.transsion.home.tv",
+      "libhxpatch.so",
+      "pbcdn.aoneroom.com",
+      "sacdn.hakunaymatata.com",
+      "schemas.android.com",
+      "sportsnow.top",
+      "tecno-mobile.com",
+      "test-acdn.aoneroom.com",
+      "type.googleapis.com"
+    ],
+    "ipv4": [
+      "127.0.0.1"
+    ],
+    "emails": [],
+    "base64_blobs": [],
+    "trackers": [
+      "amplitude"
+    ],
+    "license_keywords": [
+      "    \"params\": {}.  },.  {.    \"path\": \"/subscription/my_subscription\",.    \"className\": \"com.transsi",
+      " {}.  },.  {.    \"path\": \"/member/MemberPremiumFragment\",.    \"className\": \"com.transsion.member.Mem"
+    ]
+  },
+  "mod_analysis": {
+    "verdict": "modified-or-repacked build",
+    "strong_signals": [
+      "mod-labelled-build"
+    ],
+    "weak_signals": [
+      "license-check-strings"
+    ],
+    "signals": [
+      {
+        "signal": "mod-labelled-build",
+        "detail": "archive/app name advertises a modified build (MovieBox)"
+      },
+      {
+        "signal": "license-check-strings",
+        "detail": "2 windows of subscription/licence-check strings"
+      }
+    ],
+    "note": "Static heuristics only. Confirming a patch requires diffing this APK against the official build from the same version."
+  },
+  "findings": [
+    {
+      "id": "APK-MOD",
+      "claim": "Build shows strong signs of being modified/repackaged",
+      "confidence": "Strongly supported",
+      "tool": "rex.apk.mod_analysis",
+      "evidence": "mod-labelled-build",
+      "location": ""
+    },
+    {
+      "id": "APK-RISK-PERMS",
+      "claim": "High-risk permission set requested",
+      "confidence": "Confirmed",
+      "tool": "androguard manifest",
+      "evidence": "android.permission.REQUEST_INSTALL_PACKAGES, android.permission.SYSTEM_ALERT_WINDOW",
+      "location": ""
+    }
+  ],
+  "limitations": [
+    "76 asset entries; first 60 inspected in detail"
+  ],
+  "tools_used": {
+    "structural": "python zipfile + hashlib",
+    "manifest": "androguard APK parser",
+    "bytecode": "androguard AnalyzeAPK (+ DEX string scan)"
+  }
+}

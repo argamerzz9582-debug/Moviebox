@@ -87,6 +87,9 @@ installed, or contacted.
 # Full static report (Markdown + JSON) for a local APK
 python3 -m rex.cli apk analyze MovieBox_app.apk --out ./reports/moviebox
 
+# Deep triage: is the DEX you can see actually the real code?
+python3 -m rex.cli apk deep MovieBox_app.apk --out ./reports/moviebox
+
 # Structural validation only (ZIP + AndroidManifest.xml + classes*.dex)
 python3 -m rex.cli apk validate MovieBox_app.apk
 
@@ -108,6 +111,30 @@ What the analyzer produces (`rex/adapters/apk_analyzer.py`):
 | Indicators | Hosts, domains, URLs, public IPv4s, emails, base64 blobs, tracker markers, licence-check string windows |
 | Modified build | Weighted verdict: strong signals (mod-labelled name, debug/test-key certificate, debuggable, multi-cert) vs context (v1-only signing, many DEX…) |
 | Findings ledger | Confidence-tagged claims (`Confirmed` … `Unverified`) with the tool that produced each |
+
+### `apk deep` — packing and shell triage (`rex/adapters/apk_deep.py`)
+
+`analyze` describes an APK; `deep` answers whether the code on disk is the code
+that runs. Three passes, all pure `struct`/`zipfile` (no androguard, no jadx, no
+network), ~1 s on a 67 MiB sample:
+
+| Pass | What it does | Signal it produces |
+|---|---|---|
+| DEX table accounting | Parses the header + `map_list`, measures where the last table ends | **Undescribed bytes** — a 61 MiB DEX whose tables stop at 26 KiB is a shell, measured not guessed |
+| Packer fingerprinting | File/class/string markers for iJiami, 360 Jiagu, Legu, Bangcle, Baidu, Alibaba, UPX | Packer name + `Confirmed`/`Strongly supported`/`Possible` |
+| Payload classification | Entropy + magic for every non-image asset | `elf`, `elf-packed`, `zip`, `ciphertext-or-compressed`, `text`, `json`; flags ELF stored outside `lib/` |
+
+It also clusters the readable string pool (URLs, hosts, endpoints, custom
+headers, API paths) and recognizes community patch runtimes such as the
+`hxreborn/morphe` patch family. Output is `deep_report.md` + `deep_report.json`.
+The module records its own limits: static analysis cannot recover
+post-`JNI_OnLoad` decrypted classes, so class coverage is reported as a lower
+bound.
+
+A worked example lives in `reverse-engineering/moviebox-v4.0.04/`: a 67 MiB
+MovieBox build that turned out to be **iJiami-packed** *and* wrapped in a
+community playback patch, with the packing evidence and the failed approaches
+documented.
 
 Ingestion rules: a Drive file is never guessed. Use a Drive file ID with the
 `google_drive` connector (or `apk drive --query`), and pass the resulting bytes

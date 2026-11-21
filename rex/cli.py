@@ -16,7 +16,7 @@ from rex.orchestrator.engine import AnalysisOrchestrator
 from rex.registry.tool_registry import ToolRegistry
 from rex.provisioning.engine import Provisioner, PROFILES, environment
 from rex.provisioning import managed as registry_engine
-from rex.adapters import apk_pipeline
+from rex.adapters import apk_deep, apk_pipeline
 from rex.mcp.health import verify_server
 from rex.skills.loader import SkillRegistry
 from rex.workspace.manager import WorkspaceManager
@@ -229,6 +229,29 @@ def cmd_apk(args: argparse.Namespace, cfg: RexConfig) -> int:
         raise ValueError("Provide an APK path, --url, or use `rex apk drive --query ...`")
 
     target_dir = out_dir or (cfg.workspaces_dir / f"apk_{source.stem[:40]}")
+    if action == "deep":
+        # Deep triage is the packed-APK path: answer "is this the real code?"
+        # before spending effort on decompilation.
+        deep = apk_deep.analyze_deep(source)
+        paths = apk_deep.write_deep_report(deep, target_dir)
+        if args.json:
+            payload = deep.to_dict()
+            payload["paths"] = paths
+            _emit(payload, True)
+            return 0
+        for dex in deep.dexes:
+            print(f"DEX          : {dex.name} {dex.size/1048576:.1f} MiB, {len(dex.classes)} classes, "
+                  f"{len(dex.strings)} strings, {dex.dark_ratio:.1%} undescribed")
+        for packer in deep.packers:
+            print(f"Packer       : {packer['packer']} ({packer['confidence']})")
+        for framework in deep.patch_frameworks:
+            print(f"Patch runtime: {framework['framework']} ({framework['confidence']})")
+        print("Findings     :")
+        for finding in deep.findings:
+            print(f"  - {finding.name} ({finding.confidence}): {finding.detail[:120]}")
+        print(f"Markdown     : {paths['markdown']}")
+        print(f"JSON         : {paths['json']}")
+        return 0
     result = apk_pipeline.run_pipeline(source, target_dir)
     if args.json:
         _emit(result, True)
@@ -440,8 +463,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_provision.add_argument("--offline", action="store_true", default=argparse.SUPPRESS)
 
     p_apk = sub.add_parser("apk", help="Android APK reverse engineering (local, Drive ID, or URL)")
-    p_apk.add_argument("apk_action", choices=["analyze", "validate", "drive"],
-                       help="analyze=full static report, validate=structure only, drive=list Drive candidates")
+    p_apk.add_argument("apk_action", choices=["analyze", "deep", "validate", "drive"],
+                       help="analyze=full static report, deep=packer/shell triage, validate=structure only, drive=list Drive candidates")
     p_apk.add_argument("target", nargs="?", help="Path to the .apk file")
     p_apk.add_argument("--url", help="HTTPS URL that returns the APK bytes directly")
     p_apk.add_argument("--out", help="Output directory for the report")
