@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "frida-mcp": {
+      "command": "uvx",
+      "args": [
+        "frida-mcp"
+      ]
+    }
+  }
+}

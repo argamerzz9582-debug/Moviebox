@@ -1,0 +1,646 @@
+{
+  "apk": "google_drive/MovieBox_v4.0.04.1119.02_(50020134)_Mod_V2.apk",
+  "sha256": "6fdd667f53706b03c0c34b14296273be4fdc010447fcb636b5ce305d566aab45",
+  "size": 70166916,
+  "entries": 6305,
+  "packers": [
+    {
+      "packer": "iJiami (爱加密)",
+      "confidence": "Confirmed",
+      "file_markers": [
+        "assets/hx.classes",
+        "assets/hx.code",
+        "assets/hx.cer",
+        "assets/labresencscfg"
+      ],
+      "string_markers": [
+        "hxreborn/ijiami"
+      ]
+    }
+  ],
+  "patch_frameworks": [
+    {
+      "framework": "hxreborn/morphe MovieBox patch",
+      "confidence": "Confirmed",
+      "markers": [
+        "hxreborn/moviebox",
+        "hx/AppPatch",
+        "hx/source/MovieBoxSource"
+      ]
+    }
+  ],
+  "dexes": [
+    {
+      "name": "classes.dex",
+      "size": 64397164,
+      "version": 35,
+      "parsed": true,
+      "error": "",
+      "classes": 4,
+      "strings": 212,
+      "table_end": 26772,
+      "dark_bytes": 64370392,
+      "dark_ratio": 0.9996,
+      "map_items": [
+        {
+          "type": "header_item",
+          "count": 1,
+          "offset": 0,
+          "end": 112
+        },
+        {
+          "type": "string_id_item",
+          "count": 212,
+          "offset": 112,
+          "end": 116
+        },
+        {
+          "type": "type_id_item",
+          "count": 58,
+          "offset": 960,
+          "end": 964
+        },
+        {
+          "type": "proto_id_item",
+          "count": 54,
+          "offset": 1192,
+          "end": 1204
+        },
+        {
+          "type": "field_id_item",
+          "count": 19,
+          "offset": 1840,
+          "end": 1848
+        },
+        {
+          "type": "method_id_item",
+          "count": 114,
+          "offset": 1992,
+          "end": 2000
+        },
+        {
+          "type": "class_def_item",
+          "count": 4,
+          "offset": 2904,
+          "end": 2936
+        },
+        {
+          "type": "string_data_item",
+          "count": 212,
+          "offset": 3032,
+          "end": 6452
+        },
+        {
+          "type": "type_list",
+          "count": 31,
+          "offset": 6452,
+          "end": 6722
+        },
+        {
+          "type": "annotation_item",
+          "count": 5,
+          "offset": 6722,
+          "end": 6768
+        },
+        {
+          "type": "annotation_set_item",
+          "count": 6,
+          "offset": 6768,
+          "end": 6772
+        },
+        {
+          "type": "annotations_directory_item",
+          "count": 2,
+          "offset": 6812,
+          "end": 6900
+        },
+        {
+          "type": "debug_info_item",
+          "count": 1,
+          "offset": 6900,
+          "end": 6908
+        },
+        {
+          "type": "code_item",
+          "count": 32,
+          "offset": 6908,
+          "end": 26504
+        },
+        {
+          "type": "class_data_item",
+          "count": 4,
+          "offset": 26504,
+          "end": 26756
+        },
+        {
+          "type": "map_list",
+          "count": 1,
+          "offset": 26756,
+          "end": 26772
+        }
+      ],
+      "class_list": [
+        "Luvj/ucxx/mb/BJAvhDvBU;",
+        "Luvj/ucxx/mb/FNGpGGx;",
+        "Luvj/ucxx/mb/MtvCsRB;",
+        "Luvj/ucxx/mb/QiQ9O3z;"
+      ]
+    },
+    {
+      "name": "classes2.dex",
+      "size": 155260,
+      "version": 39,
+      "parsed": true,
+      "error": "",
+      "classes": 104,
+      "strings": 1840,
+      "table_end": 155068,
+      "dark_bytes": 192,
+      "dark_ratio": 0.0012,
+      "map_items": [
+        {
+          "type": "header_item",
+          "count": 1,
+          "offset": 0,
+          "end": 112
+        },
+        {
+          "type": "string_id_item",
+          "count": 1840,
+          "offset": 112,
+          "end": 116
+        },
+        {
+          "type": "type_id_item",
+          "count": 278,
+          "offset": 7472,
+          "end": 7476
+        },
+        {
+          "type": "proto_id_item",
+          "count": 399,
+          "offset": 8584,
+          "end": 8596
+        },
+        {
+          "type": "field_id_item",
+          "count": 435,
+          "offset": 13372,
+          "end": 13380
+        },
+        {
+          "type": "method_id_item",
+          "count": 899,
+          "offset": 16852,
+          "end": 16860
+        },
+        {
+          "type": "class_def_item",
+          "count": 104,
+          "offset": 24044,
+          "end": 24076
+        },
+        {
+          "type": "string_data_item",
+          "count": 1840,
+          "offset": 27372,
+          "end": 58668
+        },
+        {
+          "type": "type_list",
+          "count": 234,
+          "offset": 58668,
+          "end": 61030
+        },
+        {
+          "type": "encoded_array_item",
+          "count": 46,
+          "offset": 61030,
+          "end": 61557
+        },
+        {
+          "type": "annotation_item",
+          "count": 141,
+          "offset": 61557,
+          "end": 63748
+        },
+        {
+          "type": "annotation_set_item",
+          "count": 125,
+          "offset": 63748,
+          "end": 63752
+        },
+        {
+          "type": "annotations_directory_item",
+          "count": 89,
+          "offset": 64912,
+          "end": 68088
+        },
+        {
+          "type": "debug_info_item",
+          "count": 460,
+          "offset": 68088,
+          "end": 73692
+        },
+        {
+          "type": "code_item",
+          "count": 523,
+          "offset": 73692,
+          "end": 150564
+        },
+        {
+          "type": "class_data_item",
+          "count": 104,
+          "offset": 150564,
+          "end": 155052
+        },
+        {
+          "type": "map_list",
+          "count": 1,
+          "offset": 155052,
+          "end": 155068
+        }
+      ],
+      "class_list": [
+        "Lcom/android/tools/r8/annotations/LambdaMethod;",
+        "Lhx/AppNetwork;",
+        "Lhx/AppPatch$Installer;",
+        "Lhx/AppPatch;",
+        "Lhx/Boot$1;",
+        "Lhx/Boot$2;",
+        "Lhx/Boot$3;",
+        "Lhx/Boot$4;",
+        "Lhx/Boot;",
+        "Lhx/ClientInterceptors;",
+        "Lhx/Delegate;",
+        "Lhx/Laboratory;",
+        "Lhx/ProcessName;",
+        "Lhx/RetrySchedule;",
+        "Lhx/dash/CdnClient;",
+        "Lhx/dash/CdnCookies;",
+        "Lhx/dash/CdnRequest;",
+        "Lhx/dash/DashFile$0;",
+        "Lhx/dash/DashFile$1;",
+        "Lhx/dash/DashFile$RangeTransfer$0;",
+        "Lhx/dash/DashFile$RangeTransfer$1;",
+        "Lhx/dash/DashFile$RangeTransfer;",
+        "Lhx/dash/DashFile;",
+        "Lhx/dash/DashManifest$Interval;",
+        "Lhx/dash/DashManifest$Representation;",
+        "Lhx/dash/DashManifest$Template;",
+        "Lhx/dash/DashManifest;",
+        "Lhx/dash/DashManifestParser;",
+        "Lhx/dash/Piece;",
+        "Lhx/dash/ReadGroup;",
+        "Lhx/dash/SegmentProbe$0;",
+        "Lhx/dash/SegmentProbe$1;",
+        "Lhx/dash/SegmentProbe;",
+        "Lhx/dash/TransferLog;",
+        "Lhx/gateway/MillisClock;",
+        "Lhx/gateway/BuildTag$0;",
+        "Lhx/gateway/BuildTag;",
+        "Lhx/okhttp/ChainInterceptor;",
+        "Lhx/gateway/BuildTagInterceptor;",
+        "Lhx/gateway/ClientIdentity;",
+        "Lhx/gateway/ClientInfo;",
+        "Lhx/gateway/CloudFrontPlayInfoClient$0;",
+        "Lhx/gateway/CloudFrontPlayInfoClient$Answer;",
+        "Lhx/gateway/CloudFrontPlayInfoClient$SigningKey;",
+        "Lhx/gateway/PlayInfoLookup;",
+        "Lhx/gateway/CloudFrontPlayInfoClient;",
+        "Lhx/gateway/Digests;",
+        "Lhx/gateway/GatewayHeaders;",
+        "Lhx/gateway/GatewaySignature$0;",
+        "Lhx/gateway/GatewaySignature;",
+        "Lhx/gateway/PlayInfoAcceptance;",
+        "Lhx/gateway/SharedHeaders;",
+        "Lhx/loopback/ByteRange;",
+        "Lhx/loopback/DashFileSource;",
+        "Lhx/loopback/DashServer$0;",
+        "Lhx/loopback/DashServer$RedirectException;",
+        "Lhx/loopback/DashServer$UnavailableException;",
+        "Lhx/loopback/DashServer;",
+        "Lhx/loopback/LoopbackRequest;",
+        "Lhx/loopback/LoopbackResponse;",
+        "Lhx/loopback/RangeHeader;",
+        "Lhx/mp4/InterleavedTracks;",
+        "Lhx/mp4/MovieHead$Reference;",
+        "Lhx/mp4/MovieHead;",
+        "Lhx/mp4/Mp4Boxes$Box;",
+        "Lhx/mp4/Mp4Boxes;",
+        "Lhx/mp4/Segment;",
+        "Lhx/mp4/Track;",
+        "Lhx/okhttp/ApiClient;",
+        "Lhx/platform/HotPatches;",
+        "Lhx/platform/InstalledApp;",
+        "Lhx/platform/Notices$0;",
+        "Lhx/platform/Notices;",
+        "Lhx/rewrite/DashInterceptor$Endpoint;",
+        "Lhx/rewrite/DashInterceptor;",
+        "Lhx/rewrite/HomeTabs;",
+        "Lhx/rewrite/JsonObjectRewrite;",
+        "Lhx/rewrite/JsonTree;",
+        "Lhx/rewrite/MemberInfoRewriter$0;",
+        "Lhx/rewrite/MemberInfoRewriter;"
+      ]
+    }
+  ],
+  "blobs": [
+    {
+      "path": "assets/IFVjuYd",
+      "size": 8351192,
+      "entropy": 7.994,
+      "kind": "ciphertext-or-compressed",
+      "detail": "entropy 7.99, header 'indl01..'",
+      "sha256": "79e72b9523a6a84e4f2f14393e0bea4769975bd69679a2f5015bbcd031ab8d84"
+    },
+    {
+      "path": "assets/LYouKWv/x86_64/libbqhvot.so",
+      "size": 870576,
+      "entropy": 6.486,
+      "kind": "elf-packed",
+      "detail": "ELF64 x86-64, UPX-packed, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "6b9abd82402bc9a2205a0a4b277b9045a8243daf25efdbe34f9a57d1895fc3ca"
+    },
+    {
+      "path": "assets/LYouKWv/arm64-v8a/libbqhvot.so",
+      "size": 816280,
+      "entropy": 6.503,
+      "kind": "elf-packed",
+      "detail": "ELF64 aarch64, UPX-packed, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "2d62d8b7e4b9413462b5b21ed1a4a8acd4a15dfff5b1b443f4cf0d0c1c998ec8"
+    },
+    {
+      "path": "assets/mini_offline/1000681057309249536/1000681057309249536.zip",
+      "size": 784094,
+      "entropy": 7.999,
+      "kind": "zip",
+      "detail": "nested ZIP archive, entropy 8.00",
+      "sha256": "013be737b964aa9732f8a604b354963cc561f707fc9f8c17d9d245546ede4a7c"
+    },
+    {
+      "path": "assets/LYouKWv/x86/libbqhvot.so",
+      "size": 713152,
+      "entropy": 7.17,
+      "kind": "elf",
+      "detail": "ELF32 x86, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "de5cad92161bb18261e38e15d3fbfc3f27a70d12cd1d6735284be4daa95f032a"
+    },
+    {
+      "path": "assets/LYouKWv/armeabi/libbqhvot.so",
+      "size": 529384,
+      "entropy": 7.212,
+      "kind": "elf",
+      "detail": "ELF32 arm, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "87853817abc711c6397426fd6c0ebe002856493d62c9e304969f20b4be205fae"
+    },
+    {
+      "path": "assets/D9vOj2k",
+      "size": 325168,
+      "entropy": 8.0,
+      "kind": "ciphertext-or-compressed",
+      "detail": "entropy 8.00, header 'W.]...N.'",
+      "sha256": "f805267bb8f94ee8c1eef11b444ca31d9c6d97d71b54501f007fd96ec56742bc"
+    },
+    {
+      "path": "assets/LYouKWv/x86_64/libsjqyxms.so",
+      "size": 232656,
+      "entropy": 5.203,
+      "kind": "elf-packed",
+      "detail": "ELF64 x86-64, UPX-packed, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "870fd292c6dce0231cac910e15148908e82fdf9c81d50ba36b106c8634e1b84e"
+    },
+    {
+      "path": "assets/LYouKWv/arm64-v8a/libsjqyxms.so",
+      "size": 216256,
+      "entropy": 4.909,
+      "kind": "elf-packed",
+      "detail": "ELF64 aarch64, UPX-packed, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "584657d25c27fb7844a4e9825b143c4a4b729cd55e5dd4d5760fd9a15d5fbc86"
+    },
+    {
+      "path": "assets/KqF3de4hw",
+      "size": 196400,
+      "entropy": 7.999,
+      "kind": "ciphertext-or-compressed",
+      "detail": "entropy 8.00, header 'MO..cx..'",
+      "sha256": "f2237d8a6df629f082ed5a665ab38f71ab3e4bec1cd0d60766eefb9f9ec01e0d"
+    },
+    {
+      "path": "assets/mini_offline/100000/100000.zip",
+      "size": 195543,
+      "entropy": 7.998,
+      "kind": "zip",
+      "detail": "nested ZIP archive, entropy 8.00",
+      "sha256": "fa185c6e990d74c7ec59575b0e0596289b7483432d9cf7674ec6778b436b721a"
+    },
+    {
+      "path": "assets/LYouKWv/armeabi/libsjqyxms.so",
+      "size": 134992,
+      "entropy": 6.683,
+      "kind": "elf",
+      "detail": "ELF32 arm, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "b72cc79007c2acf9d929f41e98e7393bf4ff049cfdc7031401678d260d167156"
+    },
+    {
+      "path": "assets/LYouKWv/x86/libsjqyxms.so",
+      "size": 134992,
+      "entropy": 6.154,
+      "kind": "elf",
+      "detail": "ELF32 x86, iJiami-hardened, stored outside lib/ (hidden native)",
+      "sha256": "ae9b0b66cce65d24a0958a22085665b1a67351d190535e4c849c361e72d3a4c3"
+    },
+    {
+      "path": "assets/Z9fPj0A9K",
+      "size": 93728,
+      "entropy": 7.998,
+      "kind": "ciphertext-or-compressed",
+      "detail": "entropy 8.00, header '.R...]..'",
+      "sha256": "97862425de6c24e98956328d320506aefeb75f4bc5b6c77239f0a18e92c82020"
+    },
+    {
+      "path": "assets/hx.code",
+      "size": 4136,
+      "entropy": 1.883,
+      "kind": "binary",
+      "detail": "binary, header '.Z?..Z?.,R0.'",
+      "sha256": "252031206b47d2346839f9f0c67beebde30dac955d136014d1216d17bf687a32"
+    },
+    {
+      "path": "assets/dic",
+      "size": 4016,
+      "entropy": 5.456,
+      "kind": "binary",
+      "detail": "binary, header '.,/\"hbeicdic'",
+      "sha256": "5cc6aedf17910a3419c14b31a5dfb031192d41e21f9c2e5b11dbcf042c1de87e"
+    },
+    {
+      "path": "assets/license.crt",
+      "size": 1765,
+      "entropy": 7.69,
+      "kind": "binary",
+      "detail": "binary, header 'Z-}i.B..#..A'",
+      "sha256": "e114c7793a8c78eb200cf4f2252ce8c83ab547e532398689a7fb4dde7db5b69f"
+    },
+    {
+      "path": "assets/hx.classes",
+      "size": 1306,
+      "entropy": 4.456,
+      "kind": "text",
+      "detail": "text, header 'com.ijiami.r'",
+      "sha256": "ee0132f63cd825f87dca08dce5e5e94a4748d653f838d29f59ad7147cb7b3ae5"
+    },
+    {
+      "path": "assets/hx.cer",
+      "size": 885,
+      "entropy": 7.323,
+      "kind": "binary",
+      "detail": "binary, header '0..q0..Y....'",
+      "sha256": "03d4b741632d136bc23e2de4c6adcdb7712f1980b619c183221801730bbd0410"
+    },
+    {
+      "path": "assets/lable_art_xxx.lab",
+      "size": 665,
+      "entropy": 6.929,
+      "kind": "binary",
+      "detail": "binary, header 'l/./:/4/.I:L'",
+      "sha256": "9b3997791447ffd7e54959ff76c851245752621be95bd5943cd5996170a8793c"
+    },
+    {
+      "path": "assets/labresencscfg",
+      "size": 433,
+      "entropy": 7.133,
+      "kind": "small-config",
+      "detail": "under 512 B, listed for completeness",
+      "sha256": "b7084b70bf2fda2eba06034966dc73cc8e2c19e27f1e0f86fbd39349183b860d"
+    },
+    {
+      "path": "assets/hisavana_rsa_public_key.pem",
+      "size": 417,
+      "entropy": 7.387,
+      "kind": "small-config",
+      "detail": "under 512 B, listed for completeness",
+      "sha256": "09a6455c0714a3780953e4c15aa23fe840f110a0e934b6d4e00a54bb62477673"
+    },
+    {
+      "path": "assets/rsa_public_key.pem",
+      "size": 417,
+      "entropy": 7.387,
+      "kind": "small-config",
+      "detail": "under 512 B, listed for completeness",
+      "sha256": "09a6455c0714a3780953e4c15aa23fe840f110a0e934b6d4e00a54bb62477673"
+    },
+    {
+      "path": "assets/hx.factory",
+      "size": 19,
+      "entropy": 3.682,
+      "kind": "small-config",
+      "detail": "under 512 B, listed for completeness",
+      "sha256": "d0bd6b949af5efc29a1f8aeaffe5f2d31b60124b58128af1cf37e039ac791500"
+    },
+    {
+      "path": "assets/hx.hook",
+      "size": 11,
+      "entropy": 3.096,
+      "kind": "small-config",
+      "detail": "under 512 B, listed for completeness",
+      "sha256": "bd1c1cfec49655f42192ea355911a404d9c2feb8e31a06fadbfae4907541e269"
+    }
+  ],
+  "clusters": {
+    "urls": [
+      "http://127.0.0.1",
+      "http://127.0.0.1:47291/dash/"
+    ],
+    "hosts": [
+      "api3.aoneroom.com",
+      "api4.aoneroom.com",
+      "api4sg.aoneroom.com",
+      "api5.aoneroom.com",
+      "api6.aoneroom.com",
+      "sacdn.hakunaymatata.com"
+    ],
+    "endpoints": [
+      "/index.mpd",
+      "/member",
+      "/proc/self/cmdline",
+      "/profile",
+      "/subject-api/play-info",
+      "/subject-api/play-info/",
+      "/subject-api/resource",
+      "/subject-api/resource-position",
+      "/subject-api/resource/",
+      "/subject-api/resource/v2",
+      "/wefeed-mobile-bff/subject-api/play-info/v2",
+      "/wefeed-mobile-bff/user-api/visitor-login",
+      "/wefeed-tv-bff/subject/play-info/v2"
+    ],
+    "custom_headers": [
+      "X-Client-Build",
+      "X-Client-Info",
+      "x-client-info",
+      "x-client-token",
+      "x-forwarded-for",
+      "x-tr-signature"
+    ],
+    "api_paths": [
+      "application/json",
+      "assets/hx.cer",
+      "assets/hx.classes",
+      "assets/hx.code",
+      "assets/hx.factory",
+      "assets/hx.hook",
+      "hxreborn/ijiami",
+      "hxreborn/moviebox",
+      "lp7WY/4s",
+      "sOVU/AQjoJBVJ4/B",
+      "wefeed-mobile-bff/activity/marketing/sku-promotion",
+      "wefeed-mobile-bff/subject-api/bottom-tab",
+      "wefeed-mobile-bff/subject-api/play-info/v2",
+      "wefeed-mobile-bff/subject-api/resource",
+      "wefeed-mobile-bff/subject-api/resource-position",
+      "wefeed-mobile-bff/subject-api/resource-position/v2",
+      "wefeed-mobile-bff/tab-operating-page",
+      "wefeed-mobile-bff/user-api/profile",
+      "wefeed-mobile-bff/vip/member/detail"
+    ]
+  },
+  "findings": [
+    {
+      "name": "dex-shell-detected",
+      "detail": "classes.dex: 61.4 MiB file, only 4 class definition(s) and 212 string(s); DEX tables cover 26 KiB (100.0% of the file unddescribed)",
+      "confidence": "Confirmed",
+      "tool": "apk_deep.parse_dex_index + map_list accounting"
+    },
+    {
+      "name": "packer-identified",
+      "detail": "iJiami (爱加密) (files: assets/hx.classes, assets/hx.code, assets/hx.cer, assets/labresencscfg)",
+      "confidence": "Confirmed",
+      "tool": "apk_deep.detect_packers"
+    },
+    {
+      "name": "patch-framework",
+      "detail": "hxreborn/morphe MovieBox patch markers: hxreborn/moviebox, hx/AppPatch, hx/source/MovieBoxSource",
+      "confidence": "Confirmed",
+      "tool": "apk_deep.detect_patch_frameworks"
+    },
+    {
+      "name": "native-code-outside-lib",
+      "detail": "8 ELF payload(s) in assets/: assets/LYouKWv/x86_64/libbqhvot.so, assets/LYouKWv/arm64-v8a/libbqhvot.so, assets/LYouKWv/x86/libbqhvot.so, assets/LYouKWv/armeabi/libbqhvot.so, assets/LYouKWv/x86_64/libsjqyxms.so, assets/LYouKWv/arm64-v8a/libsjqyxms.so",
+      "confidence": "Confirmed",
+      "tool": "apk_deep.classify_blob"
+    },
+    {
+      "name": "encrypted-overlays",
+      "detail": "4 high-entropy asset(s), 8.6 MiB total: assets/IFVjuYd (entropy 7.99, header 'indl01..'), assets/D9vOj2k (entropy 8.00, header 'W.]...N.'), assets/KqF3de4hw (entropy 8.00, header 'MO..cx..'), assets/Z9fPj0A9K (entropy 8.00, header '.R...]..')",
+      "confidence": "Strongly supported",
+      "tool": "apk_deep.classify_blob"
+    }
+  ],
+  "limitations": [
+    "Static analysis cannot recover the runtime-decrypted code: the real classes are materialised in memory by the packer after JNI_OnLoad, so class/method coverage from disk is a lower bound.",
+    "Unpacking was not performed. A safe next step is a dynamic run on an isolated emulator (frida spawn-gating + memory DEX dump), which requires executing the sample.",
+    "Blob classification uses entropy and magic bytes; it does not prove encryption.",
+    "The DEX map table is trusted for table extents; forged map entries would skew the dark-byte ratio."
+  ]
+}

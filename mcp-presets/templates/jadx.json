@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "jadx-mcp": {
+      "command": "uvx",
+      "args": [
+        "jadx-mcp-server"
+      ]
+    }
+  }
+}

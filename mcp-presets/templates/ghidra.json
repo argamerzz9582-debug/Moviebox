@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ghidra-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "ghidra_mcp",
+        "--ghidra-server",
+        "http://127.0.0.1:8080/"
+      ]
+    }
+  }
+}
