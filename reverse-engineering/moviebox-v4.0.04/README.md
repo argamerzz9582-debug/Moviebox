@@ -9,7 +9,8 @@ recorded below (commands are reproduced so every claim can be re-derived).
 | --- | --- |
 | File | `MovieBox_v4.0.04.1119.02_(50020134)_Mod_V2.apk` |
 | Size | 70,166,916 B (66.9 MiB) |
-| SHA-256 | `6fdd667f…aab45` (full digest in `apk_report.json`) |
+| SHA-256 | `6fdd667f53706b03c0c34b14296273be4fdc010447fcb636b5ce305d566aab45` |
+| MD5 | `7fa30edc8957fd0bf7cd81a107242165` (matches Drive metadata) |
 | Package | `com.community.oneroom` |
 | Version | 4.0.04.1119.02 (code 50020134) |
 | Signing | APK Signature Scheme v2 + v3; cert `CN=IN`, 2022-12-24 → 2123-03-10, SHA-256 `1da5e08fffa51acf0ae1cab33b0878b3…` |
