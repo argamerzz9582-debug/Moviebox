@@ -30,6 +30,21 @@ Everything is client-side. There is no backend, no analytics, and no third-party
 runtime; the only dependency shipped to the browser is `jszip`, loaded **only** when you drop an
 archive.
 
+## Deployed
+
+| | |
+| --- | --- |
+| **Live** | <https://cinematheque-chi.vercel.app> |
+| **Vercel project** | `cinematheque` (`prj_c4iACoFBXCONApwEKrsCYwx0a6qI`, team `argamerzz9582-debugs-projects`) |
+| **Framework** | Vite (static output, no server functions) |
+| **Root directory** | `apps/cinematheque` — required, this repo is a monorepo |
+| **Protection** | None on the production alias; it is publicly reachable |
+
+Notes for redeploys: the deployment is a plain static Vite build (`npm run build` → `dist/`).
+Vercel's automatic/per-deployment URLs (`cinematheque-<hash>-…vercel.app`) inherit the
+team's **Deployment Protection** and will ask for a Vercel login — the stable production
+alias above is the one to share.
+
 ## Run it
 
 ```bash
