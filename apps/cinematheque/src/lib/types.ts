@@ -47,6 +47,8 @@ export interface Title {
   watched: boolean;
   /** Optional user override of the parsed name (rename support). */
   displayName?: string;
+  /** Hand-picked favourite, toggled from the card. */
+  favourite?: boolean;
   files: MediaFile[];
 }
 
@@ -58,11 +60,16 @@ export interface ProgressRecord {
   updatedAt: string;
 }
 
+/** How the library is presented: poster grid or dense list. */
+export type ViewMode = "grid" | "rows";
+
 export interface LibrarySnapshot {
   titles: Title[];
   progress: Record<string, ProgressRecord>;
   /** Collection names the user created manually. */
   collections: Record<string, string[]>;
+  /** Presentation preference, persisted so it survives a reload. */
+  viewMode?: ViewMode;
 }
 
-export const EMPTY_LIBRARY: LibrarySnapshot = { titles: [], progress: {}, collections: {} };
+export const EMPTY_LIBRARY: LibrarySnapshot = { titles: [], progress: {}, collections: {}, viewMode: "grid" };

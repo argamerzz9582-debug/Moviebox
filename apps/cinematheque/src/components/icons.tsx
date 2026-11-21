@@ -124,3 +124,22 @@ export const IconSkip = (p: IconProps) => (
     <path d="M18 5v14" />
   </Base>
 );
+
+export const IconPip = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <rect x="12" y="11" width="7" height="6" rx="1" fill="currentColor" stroke="none" />
+  </Base>
+);
+
+export const IconStar = (p: IconProps) => (
+  <Base {...p}>
+    <path d="m12 4 2.4 5 5.6.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.6-.8z" />
+  </Base>
+);
+
+export const IconSort = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M4 7h10M4 12h7M4 17h4M17 4v16m0 0 3-3m-3 3-3-3" />
+  </Base>
+);

@@ -189,6 +189,7 @@ export async function importFiles(
 
     onProgress?.({ phase: "store", done: index, total, current: file.name });
     await putBlob({ id: fileId, blob: file, fileName: file.name });
+    onProgress?.({ phase: "store", done: index + 1, total, current: file.name });
   }
 
   // Sort episodes inside a series so "next episode" is deterministic.
