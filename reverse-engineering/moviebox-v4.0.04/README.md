@@ -22,6 +22,30 @@ Machine-readable companions: `apk_report.{md,json}` (surface), `deep_report.{md,
 
 ---
 
+## 0. Getting the exact sample
+
+The analysed file is the one on Drive (public read-only link, not search-indexed):
+
+- **View**: <https://drive.google.com/file/d/1lLq-VDN8zCFByKjfLxsc9Qe_4HSnGUzG/view>
+- **Direct download**: <https://drive.google.com/uc?export=download&id=1lLq-VDN8zCFByKjfLxsc9Qe_4HSnGUzG>
+  (Google shows an "can't scan this file" interstitial for large APKs — choose *Download anyway*)
+
+Verify before doing anything with it:
+
+```bash
+sha256sum "MovieBox_v4.0.04.1119.02_(50020134)_Mod_V2.apk"
+# 6fdd667f53706b03c0c34b14296273be4fdc010447fcb636b5ce305d566aab45
+md5sum    "MovieBox_v4.0.04.1119.02_(50020134)_Mod_V2.apk"
+# 7fa30edc8957fd0bf7cd81a107242165
+```
+
+The sample itself is deliberately **not** committed to this repo (`.gitignore` covers
+`google_drive/` and `*.apk`); this report and the two generated reports are the evidence
+trail. Because the build is packed, re-signed (`CN=IN`) and carries a third-party playback
+patch, treat installing it as a deliberate risk decision, not a normal app install.
+
+---
+
 ## 1. Bottom line
 
 This APK contains **two independent tampering layers**, and they are not from the same
