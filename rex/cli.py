@@ -4,6 +4,7 @@
 import argparse
 import json
 import sys
+import tempfile
 from pathlib import Path
 from typing import List, Optional
 
@@ -15,6 +16,7 @@ from rex.orchestrator.engine import AnalysisOrchestrator
 from rex.registry.tool_registry import ToolRegistry
 from rex.provisioning.engine import Provisioner, PROFILES, environment
 from rex.provisioning import managed as registry_engine
+from rex.adapters import apk_pipeline
 from rex.mcp.health import verify_server
 from rex.skills.loader import SkillRegistry
 from rex.workspace.manager import WorkspaceManager
@@ -195,6 +197,62 @@ def cmd_registry(args: argparse.Namespace, cfg: RexConfig) -> int:
         _emit({"results": results}, args.json) if args.json else print(registry_engine.render_status(results))
         return 0
     return 1
+
+
+def cmd_apk(args: argparse.Namespace, cfg: RexConfig) -> int:
+    """Android APK reverse engineering: local file, Drive file ID, or direct URL."""
+    action = args.apk_action
+    out_dir = Path(args.out).expanduser() if getattr(args, "out", None) else None
+
+    if action == "drive":
+        listing = apk_pipeline.list_drive_files(
+            query=getattr(args, "query", None) or "name contains 'MovieBox'",
+            limit=getattr(args, "limit", 25) or 25)
+        _emit(listing, args.json)
+        return 0 if listing.get("available") else 1
+
+    if action == "validate":
+        result = apk_pipeline.validate_apk(Path(args.target).expanduser())
+        _emit(result, args.json) if args.json else print(json.dumps(result, indent=2))
+        return 0 if result["valid"] else 1
+
+    source = Path(args.target).expanduser() if args.target else None
+    if getattr(args, "url", None):
+        staging = out_dir or Path(tempfile.gettempdir()) / "rex-apk" / "download"
+        fetched = apk_pipeline.fetch_from_url(args.url, staging / "download.apk")
+        if not fetched.get("ok"):
+            _emit({"error": fetched.get("detail")}, True) if args.json else print(
+                f"[REX ERROR] download failed: {fetched.get('detail')}", file=sys.stderr)
+            return 1
+        source = Path(fetched["path"])
+    if not source or not source.is_file():
+        raise ValueError("Provide an APK path, --url, or use `rex apk drive --query ...`")
+
+    target_dir = out_dir or (cfg.workspaces_dir / f"apk_{source.stem[:40]}")
+    result = apk_pipeline.run_pipeline(source, target_dir)
+    if args.json:
+        _emit(result, True)
+        return 0 if result.get("analyzed") else 1
+    if not result.get("analyzed"):
+        print(f"[REX] validation failed: {result['validation']['detail']}", file=sys.stderr)
+        return 1
+    report = result["report"]
+    ident = report["identity"]
+    print(f"APK          : {ident.get('name')}")
+    print(f"SHA-256      : {ident.get('sha256')}")
+    print(f"Package      : {ident.get('package')} v{ident.get('version_name')} ({ident.get('version_code')})")
+    print(f"Size         : {ident.get('size_bytes', 0)/1048576:.1f} MiB, {len(ident.get('dex_files') or [])} DEX")
+    print(f"Signing      : {', '.join(report['signing'].get('schemes') or []) or 'none'}")
+    print(f"Classes      : {report['bytecode'].get('classes', 0):,}, methods {report['bytecode'].get('methods', 0):,}")
+    print(f"Permissions  : {report['permissions'].get('count', 0)} "
+          f"({len(report['permissions'].get('risk') or [])} flagged)")
+    print(f"Mod verdict  : {report['mod_analysis'].get('verdict')}")
+    print("Findings     :")
+    for finding in report["findings"]:
+        print(f"  - {finding['id']} ({finding['confidence']}): {finding['claim']}")
+    print(f"Markdown     : {result['paths']['markdown']}")
+    print(f"JSON         : {result['paths']['json']}")
+    return 0
 
 
 def cmd_skills(args: argparse.Namespace, cfg: RexConfig) -> int:
@@ -381,6 +439,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_provision.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
     p_provision.add_argument("--offline", action="store_true", default=argparse.SUPPRESS)
 
+    p_apk = sub.add_parser("apk", help="Android APK reverse engineering (local, Drive ID, or URL)")
+    p_apk.add_argument("apk_action", choices=["analyze", "validate", "drive"],
+                       help="analyze=full static report, validate=structure only, drive=list Drive candidates")
+    p_apk.add_argument("target", nargs="?", help="Path to the .apk file")
+    p_apk.add_argument("--url", help="HTTPS URL that returns the APK bytes directly")
+    p_apk.add_argument("--out", help="Output directory for the report")
+    p_apk.add_argument("--query", default="name contains 'MovieBox'", help="Drive search query for `drive`")
+    p_apk.add_argument("--limit", type=int, default=25, help="Max Drive results")
+    p_apk.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
+
     p_registry = sub.add_parser("registry", help="Actionable tool installation registry (TOOL_INSTALLATION_REGISTRY.md)")
     p_registry.add_argument("registry_action", choices=["list", "plan", "install", "ensure", "retry"],
                             help="list=honest states, plan=preview, install/ensure=install+verify, retry=re-verify")
@@ -445,6 +513,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return cmd_tools(args, cfg)
         if args.command == "provision":
             return cmd_provision(args, cfg)
+        if args.command == "apk":
+            return cmd_apk(args, cfg)
         if args.command == "registry":
             return cmd_registry(args, cfg)
         if args.command == "skills":

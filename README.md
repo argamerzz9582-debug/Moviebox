@@ -77,6 +77,44 @@ python3 -m rex.cli report <run-id> --format markdown
 
 ---
 
+## APK reverse engineering (`rex apk`)
+
+A first-class Android pipeline built for the "modded streaming app" workflow:
+acquire → validate → static triage → report. Nothing in the APK is executed,
+installed, or contacted.
+
+```bash
+# Full static report (Markdown + JSON) for a local APK
+python3 -m rex.cli apk analyze MovieBox_app.apk --out ./reports/moviebox
+
+# Structural validation only (ZIP + AndroidManifest.xml + classes*.dex)
+python3 -m rex.cli apk validate MovieBox_app.apk
+
+# Drive candidates for a query, and direct download when you have a URL
+python3 -m rex.cli apk drive --query "name contains 'MovieBox'"
+python3 -m rex.cli apk analyze --url "https://…/MovieBox.apk" --out ./reports/moviebox
+```
+
+What the analyzer produces (`rex/adapters/apk_analyzer.py`):
+
+| Section | Contents |
+|---|---|
+| Identity | SHA-256, size, package, version name/code, app label, min/target SDK, DEX list, debuggable/backup/cleartext flags |
+| Signing | v1/v2/v3 scheme coverage, certificate subject/issuer, validity, SHA-256 fingerprint |
+| Components | Activities/services/receivers/providers, **exported** entry points (attack surface), main activity |
+| Permissions | Full list plus a curated risk table (SMS, overlay, install-packages, accessibility, all-files, logs…) |
+| Frameworks & SDKs | Fingerprints for Firebase, ExoPlayer/Media3, VLC/IJK/FFmpeg, Rhino/QuickJS, Flutter/RN, OkHttp, SQLCipher… and ad networks |
+| API surface | Reflection, `DexClassLoader`, `Runtime.exec`, JS bridges, crypto, raw sockets — matched against the method index |
+| Indicators | Hosts, domains, URLs, public IPv4s, emails, base64 blobs, tracker markers, licence-check string windows |
+| Modified build | Weighted verdict: strong signals (mod-labelled name, debug/test-key certificate, debuggable, multi-cert) vs context (v1-only signing, many DEX…) |
+| Findings ledger | Confidence-tagged claims (`Confirmed` … `Unverified`) with the tool that produced each |
+
+Ingestion rules: a Drive file is never guessed. Use a Drive file ID with the
+`google_drive` connector (or `apk drive --query`), and pass the resulting bytes
+straight to `apk analyze`; `--url` accepts only HTTPS and caps downloads at
+512 MiB. Every analysed APK is validated by structure before parsing, and all
+strings inside it are treated as untrusted data (prompt-injection rule).
+
 ## Tool Installation Registry (`TOOL_INSTALLATION_REGISTRY.md`)
 
 `TOOL_INSTALLATION_REGISTRY.md` is treated as an **actionable** registry, not

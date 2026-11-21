@@ -68,6 +68,7 @@ def validate() -> int:
             print(f"  - {e}")
         return 1
 
+    from rex.adapters import apk_analyzer, apk_pipeline  # noqa: F401  (import-time sanity)
     from rex.provisioning import managed
 
     for tool in ("radare2", "jadx", "apktool", "binwalk", "tshark", "ghidra", "frida"):
