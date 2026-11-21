@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "hex-binary-mcp": {
+      "command": "python3",
+      "args": [
+        "-c",
+        "import sys; print('Use rex CLI or rex-file-format skill for binary inspection', file=sys.stderr)"
+      ]
+    }
+  }
+}

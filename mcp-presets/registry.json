@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-11-21",
+  "servers": [
+    {
+      "id": "ghidra-mcp",
+      "name": "Ghidra MCP",
+      "category": "native-binary",
+      "upstream": "https://github.com/LaurieWired/GhidraMCP",
+      "description": "Connects AI agents to Ghidra for decompilation, symbol renaming, and cross-reference inspection.",
+      "targets": [
+        "ELF",
+        "PE",
+        "Mach-O",
+        "Firmware",
+        "Raw Binary"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "license": "Apache-2.0",
+      "verification_status": "verified",
+      "profile": "native",
+      "required_binaries": [
+        "java",
+        "ghidra"
+      ],
+      "template": "templates/ghidra.json",
+      "risk_tier": 1,
+      "mcp_config": {
+        "command": "python3",
+        "args": [
+          "-m",
+          "ghidra_mcp",
+          "--ghidra-server",
+          "http://127.0.0.1:8080/"
+        ]
+      }
+    },
+    {
+      "id": "jadx-mcp",
+      "name": "JADX AI MCP",
+      "category": "android",
+      "upstream": "https://github.com/zinja-coder/jadx-ai-mcp",
+      "description": "Exposes JADX decompiled classes, AndroidManifest.xml, resources, and method search over MCP.",
+      "targets": [
+        "APK",
+        "DEX",
+        "JAR",
+        "AAR",
+        "Smali",
+        "Minecraft JAR"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "license": "Apache-2.0",
+      "verification_status": "verified",
+      "profile": "android",
+      "required_binaries": [
+        "java",
+        "jadx"
+      ],
+      "template": "templates/jadx.json",
+      "risk_tier": 1,
+      "mcp_config": {
+        "command": "uvx",
+        "args": [
+          "jadx-mcp-server"
+        ]
+      }
+    },
+    {
+      "id": "radare2-mcp",
+      "name": "radare2 MCP (r2mcp)",
+      "category": "native-binary",
+      "upstream": "https://github.com/radareorg/r2mcp",
+      "description": "Official radare2 MCP integration for headless disassembly, sections, strings, and function analysis.",
+      "targets": [
+        "ELF",
+        "PE",
+        "Mach-O",
+        "DEX",
+        "WASM",
+        "Firmware"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows",
+        "termux"
+      ],
+      "license": "MIT",
+      "verification_status": "verified",
+      "profile": "native",
+      "required_binaries": [
+        "r2"
+      ],
+      "template": "templates/r2.json",
+      "risk_tier": 1,
+      "mcp_config": {
+        "command": "r2mcp",
+        "args": []
+      }
+    },
+    {
+      "id": "frida-mcp",
+      "name": "Frida MCP",
+      "category": "dynamic-instrumentation",
+      "upstream": "https://github.com/frida/frida",
+      "description": "Opt-in authorized runtime process enumeration, module inspection, and script instrumentation bridge.",
+      "targets": [
+        "Android",
+        "iOS",
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "license": "wxWindows-3.1",
+      "verification_status": "partially_verified",
+      "profile": "android",
+      "required_binaries": [
+        "frida",
+        "python3"
+      ],
+      "template": "templates/frida.json",
+      "risk_tier": 2,
+      "mcp_config": {
+        "command": "uvx",
+        "args": [
+          "frida-mcp"
+        ]
+      }
+    },
+    {
+      "id": "playwright-mcp",
+      "name": "Playwright Browser DevTools MCP",
+      "category": "web-js",
+      "upstream": "https://github.com/microsoft/playwright-mcp",
+      "description": "Inspect DOM, network requests, console logs, and client-side JS behavior on authorized web targets.",
+      "targets": [
+        "Web",
+        "JavaScript",
+        "TypeScript",
+        "WASM"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows"
+      ],
+      "license": "Apache-2.0",
+      "verification_status": "verified",
+      "profile": "web",
+      "required_binaries": [
+        "npx",
+        "node"
+      ],
+      "template": "templates/playwright.json",
+      "risk_tier": 1,
+      "mcp_config": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@playwright/mcp@latest"
+        ]
+      }
+    },
+    {
+      "id": "hex-binary-mcp",
+      "name": "Hex & Binary Inspector MCP",
+      "category": "file-format",
+      "upstream": "https://github.com/modelcontextprotocol/servers",
+      "description": "Lightweight read-only hex slice, magic-byte, and binary metadata inspection server.",
+      "targets": [
+        "Unknown",
+        "Binary",
+        "Archive",
+        "Firmware"
+      ],
+      "platforms": [
+        "linux",
+        "darwin",
+        "windows",
+        "termux"
+      ],
+      "license": "MIT",
+      "verification_status": "partially_verified",
+      "profile": "core",
+      "required_binaries": [
+        "python3"
+      ],
+      "template": "templates/hex.json",
+      "risk_tier": 0,
+      "mcp_config": {
+        "command": "python3",
+        "args": [
+          "-c",
+          "import sys; print('Use rex CLI or rex-file-format skill for binary inspection', file=sys.stderr)"
+        ]
+      }
+    }
+  ]
+}
