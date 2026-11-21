@@ -11,6 +11,25 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 
+def find_executable(name: str) -> Optional[str]:
+    """PATH lookup that also honours REX-managed locations.
+
+    Registry-installed tools live in ``~/.local/bin`` (wrappers) or in a
+    per-tool prefix under ``~/.rex/tools/<tool>/bin``. Only the executable is
+    located here; ``PATH`` itself is never mutated.
+    """
+    home = Path.home()
+    candidates = [home / ".local" / "bin"]
+    root = home / ".rex" / "tools"
+    if root.is_dir():
+        candidates.extend(sorted(p / "bin" for p in root.iterdir() if p.is_dir()))
+    for directory in candidates:
+        candidate = directory / name
+        if candidate.is_file() and os.access(candidate, os.X_OK):
+            return str(candidate)
+    return shutil.which(name)
+
+
 class ToolStatus(str, Enum):
     NOT_DETECTED = "not_detected"
     AVAILABLE = "available"
@@ -274,7 +293,7 @@ class ToolRegistry:
     def __init__(
         self,
         venv_python: Optional[Path] = None,
-        which_fn: Callable[[str], Optional[str]] = shutil.which,
+        which_fn: Callable[[str], Optional[str]] = find_executable,
         run_health_checks: bool = False,
     ):
         self.venv_python = venv_python

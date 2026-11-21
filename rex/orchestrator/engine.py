@@ -12,6 +12,7 @@ from rex.detectors.target_detector import TargetClassification, detect_target
 from rex.ingestion.url_fetcher import inspect_remote_url
 from rex.registry.tool_registry import ToolRegistry
 from rex.provisioning.engine import Provisioner
+from rex.provisioning import managed as registry_engine
 from rex.reporting.engine import EvidenceFinding, ReportEngine
 from rex.skills.loader import SkillRegistry
 from rex.workspace.manager import WorkspaceManager
@@ -123,13 +124,32 @@ class AnalysisOrchestrator:
                       "native": ["radare2"], "firmware": ["binwalk"],
                       "network": ["tshark"]}
             requested = [tool for task in tasks for tool in needed.get(task.adapter, [])]
+            registry_ids = {entry.id for entry in registry_engine.REGISTRY}
             if requested:
                 engine = Provisioner(self.config.rex_home.parent, offline=self.config.offline_mode)
-                try:
-                    plan = engine.plan(requested)
-                    provisioning = engine.install(plan)
-                except (OSError, ValueError, RuntimeError) as exc:
-                    provisioning = [{"state": "failed", "detail": str(exc)}]
+                # TOOL_INSTALLATION_REGISTRY.md is actionable: registry tools are
+                # installed (or honestly reported UNSUPPORTED) rather than skipped.
+                deferred = []
+                for tool in requested:
+                    if tool not in registry_ids:
+                        continue
+                    if self.config.offline_mode:
+                        deferred.append({"tool": tool, "state": "skipped", "detail": "offline mode"})
+                        continue
+                    try:
+                        provisioning.append(registry_engine.install(
+                            tool, home=self.config.rex_home.parent, allow_system=False))
+                    except (OSError, ValueError, RuntimeError) as exc:
+                        provisioning.append({"tool": tool, "state": "failed", "detail": str(exc)})
+                remaining = [t for t in requested if t not in registry_ids
+                             and not registry_engine.which_managed(t, self.config.rex_home.parent)]
+                if remaining:
+                    try:
+                        plan = engine.plan(remaining)
+                        provisioning.extend(engine.install(plan))
+                    except (OSError, ValueError, RuntimeError) as exc:
+                        provisioning.append({"state": "failed", "detail": str(exc)})
+                provisioning.extend(deferred)
                 tools_snapshot = [t.to_dict() for t in self.tool_registry.inspect_all()]
         # Managed binaries are passed explicitly, never added to process PATH.
         if not is_url and mode in ("deep", "full"):
@@ -139,6 +159,16 @@ class AnalysisOrchestrator:
                     verified = engine.inspect(name)
                     if verified.get("state") == "verified" and verified.get("path"):
                         executable_paths[name] = verified["path"]
+            # Registry-managed executables (r2, jadx, apktool, tshark, ...) discovered
+            # through ~/.local/bin or per-tool prefixes, never by mutating PATH.
+            for spec in registry_engine.REGISTRY:
+                if not spec.state_exe or spec.state_exe in executable_paths:
+                    continue
+                located = registry_engine.which_managed(spec.state_exe, self.config.rex_home.parent)
+                if located:
+                    executable_paths[spec.state_exe] = located
+                    if spec.id == "radare2":
+                        executable_paths["radare2"] = located
 
         findings: List[EvidenceFinding] = [
             EvidenceFinding(

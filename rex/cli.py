@@ -14,6 +14,7 @@ from rex.minecraft.analyzer import inspect_minecraft_artifact
 from rex.orchestrator.engine import AnalysisOrchestrator
 from rex.registry.tool_registry import ToolRegistry
 from rex.provisioning.engine import Provisioner, PROFILES, environment
+from rex.provisioning import managed as registry_engine
 from rex.mcp.health import verify_server
 from rex.skills.loader import SkillRegistry
 from rex.workspace.manager import WorkspaceManager
@@ -133,6 +134,68 @@ def cmd_provision(args: argparse.Namespace, cfg: RexConfig) -> int:
     results = engine.install(plan, dry_run=args.dry_run, allow_system=args.yes and args.allow_system)
     _emit({"plan": plan, "results": results}, args.json)
     return 1 if not args.dry_run and any(r["state"] in ("failed", "blocked", "unsupported", "skipped") for r in results) else 0
+
+def cmd_registry(args: argparse.Namespace, cfg: RexConfig) -> int:
+    """Actionable installation registry (TOOL_INSTALLATION_REGISTRY.md).
+
+    READ REGISTRY -> OFFICIAL REPOSITORY -> INSTALL -> CONFIGURE -> VERIFY.
+    """
+    home = cfg.rex_home.parent
+    action = args.registry_action
+
+    def log(message: str) -> None:
+        if not args.json:
+            print(message, file=sys.stderr)
+
+    if action == "list":
+        records = registry_engine.status(home)
+        if args.json:
+            _emit(records, True)
+            return 0
+        print(registry_engine.render_status(records))
+        print("\nRegistry source: TOOL_INSTALLATION_REGISTRY.md "
+              f"({len(registry_engine.REGISTRY)} tools, priority 1 then 2)")
+        return 0
+    if action == "plan":
+        ids = args.tools or None
+        _emit(registry_engine.plan(home, ids), args.json)
+        return 0
+    if action in ("install", "ensure"):
+        if args.priority:
+            targets = registry_engine.DEFAULT_PRIORITY.get(args.priority, [])
+        elif args.tools:
+            targets = list(args.tools)
+        else:
+            raise ValueError("Select tool IDs, --priority 1|2, or --all")
+        if args.all:
+            targets = [entry.id for entry in registry_engine.REGISTRY]
+        results = []
+        for tool in targets:
+            result = registry_engine.install(tool, home=home, dry_run=args.dry_run,
+                                            allow_system=args.allow_system, force=args.force, log=log)
+            results.append(result)
+            if not args.json:
+                state = result.get("state")
+                print(f"[{state:<13}] {tool:<10} {(result.get('version') or result.get('detail') or '')[:90]}")
+            if action == "ensure" and result.get("state") == registry_engine.VERIFIED and not args.dry_run:
+                continue
+        _emit({"results": results}, args.json) if args.json else None
+        if args.dry_run:
+            return 0
+        return 1 if any(r.get("state") not in (registry_engine.VERIFIED, "already verified") for r in results) else 0
+    if action == "retry":
+        # Verify CONFIGURED tools whose probe failed earlier and re-install if needed.
+        results = []
+        for tool in args.tools or [entry.id for entry in registry_engine.REGISTRY]:
+            record = registry_engine.detect(registry_engine.BY_ID[tool], home)
+            if record["state"] != registry_engine.VERIFIED:
+                record = registry_engine.install(tool, home=home, dry_run=args.dry_run,
+                                                 allow_system=args.allow_system, log=log)
+            results.append(record)
+        _emit({"results": results}, args.json) if args.json else print(registry_engine.render_status(results))
+        return 0
+    return 1
+
 
 def cmd_skills(args: argparse.Namespace, cfg: RexConfig) -> int:
     specs = [s.to_dict() for s in SkillRegistry(cfg.repo_root).discover()]
@@ -318,6 +381,17 @@ def build_parser() -> argparse.ArgumentParser:
     p_provision.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
     p_provision.add_argument("--offline", action="store_true", default=argparse.SUPPRESS)
 
+    p_registry = sub.add_parser("registry", help="Actionable tool installation registry (TOOL_INSTALLATION_REGISTRY.md)")
+    p_registry.add_argument("registry_action", choices=["list", "plan", "install", "ensure", "retry"],
+                            help="list=honest states, plan=preview, install/ensure=install+verify, retry=re-verify")
+    p_registry.add_argument("tools", nargs="*", help="Registry tool IDs (radare2, jadx, apktool, binwalk, tshark, ghidra, frida, java)")
+    p_registry.add_argument("--priority", type=int, choices=[1, 2], help="Install priority 1 or 2 from the registry")
+    p_registry.add_argument("--all", action="store_true", help="Install every registry tool")
+    p_registry.add_argument("--dry-run", action="store_true")
+    p_registry.add_argument("--allow-system", action="store_true", help="Permit system package changes; never escalates privileges")
+    p_registry.add_argument("--force", action="store_true", help="Reinstall even when already verified")
+    p_registry.add_argument("--json", action="store_true", default=argparse.SUPPRESS)
+
     p_skills = sub.add_parser("skills", help="List and validate REX skills")
     p_skills.add_argument("skills_action", choices=["list"], default="list", nargs="?")
 
@@ -371,6 +445,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return cmd_tools(args, cfg)
         if args.command == "provision":
             return cmd_provision(args, cfg)
+        if args.command == "registry":
+            return cmd_registry(args, cfg)
         if args.command == "skills":
             return cmd_skills(args, cfg)
         if args.command == "mcp":

@@ -36,6 +36,23 @@ Then ask **once** if they would like to install Tier 2 heavy toolchains using:
 - `python3 install.py --profile minecraft`
 - `python3 install.py --profile full`
 
+## Rule 2b — Actionable Tool Installation Registry
+`TOOL_INSTALLATION_REGISTRY.md` is an executable install policy. Treat it as:
+READ REGISTRY -> OFFICIAL REPOSITORY -> DETECT ENVIRONMENT -> INSTALL ->
+CONFIGURE -> VERIFY -> RETRY ANALYSIS. Never stop at "tool missing" while a
+supported, safe install method exists.
+
+```bash
+python3 -m rex.cli registry list                 # honest per-tool state
+python3 -m rex.cli registry install --priority 1 # radare2, jadx, apktool, binwalk, tshark
+python3 -m rex.cli registry install ghidra       # priority 2
+python3 -m rex.cli registry retry                # re-verify and repair
+```
+
+`VERIFIED` requires a successful version/functional probe; report
+`UNSUPPORTED` with the exact limitation instead of pretending. No privilege
+escalation is attempted.
+
 ## Rule 3 — Post-Install Activation & Safety Boundaries
 Whenever the user asks you to reverse engineer, inspect, or triage any binary, APK, IPA, Minecraft plugin/mod/server/resource-pack, archive, firmware image, web bundle, PCAP, URL/GitHub repo, or unknown file:
 1. **Load `skills/rex-master/SKILL.md` first** and use the `rex` CLI engine (`python3 -m rex.cli ...`) to execute deterministic, evidence-backed workflows (`quick`, `deep`, or `full`).

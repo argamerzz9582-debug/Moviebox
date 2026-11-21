@@ -19,7 +19,8 @@ REQUIRED_SERVER_KEYS = {
 def validate() -> int:
     errors = []
 
-    for fname in ["AGENTS.md", "CLAUDE.md", "README.md", "LICENSE", "SECURITY.md", "install.py", "pyproject.toml"]:
+    for fname in ["AGENTS.md", "CLAUDE.md", "README.md", "LICENSE", "SECURITY.md", "install.py",
+                  "pyproject.toml", "TOOL_INSTALLATION_REGISTRY.md"]:
         if not (REPO_ROOT / fname).exists():
             errors.append(f"Missing required root file: {fname}")
 
@@ -67,7 +68,18 @@ def validate() -> int:
             print(f"  - {e}")
         return 1
 
-    print(f"VALIDATION PASSED: {len(specs)} skills, {len(reg['servers'])} MCP presets, 4 knowledge guides verified.")
+    from rex.provisioning import managed
+
+    for tool in ("radare2", "jadx", "apktool", "binwalk", "tshark", "ghidra", "frida"):
+        if tool not in managed.BY_ID:
+            errors.append(f"TOOL_INSTALLATION_REGISTRY.md tool not actionable in rex/provisioning/managed.py: {tool}")
+    if errors:
+        print("VALIDATION FAILED:")
+        for e in errors:
+            print(f"  - {e}")
+        return 1
+    print(f"VALIDATION PASSED: {len(specs)} skills, {len(reg['servers'])} MCP presets, "
+          f"4 knowledge guides, {len(managed.REGISTRY)} registry tools verified.")
     return 0
 
 

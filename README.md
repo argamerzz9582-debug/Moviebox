@@ -77,6 +77,53 @@ python3 -m rex.cli report <run-id> --format markdown
 
 ---
 
+## Tool Installation Registry (`TOOL_INSTALLATION_REGISTRY.md`)
+
+`TOOL_INSTALLATION_REGISTRY.md` is treated as an **actionable** registry, not
+documentation. `rex/provisioning/managed.py` turns each entry into a pinned
+install method, and the workflow is enforced end to end:
+
+```
+READ THIS REGISTRY -> OPEN OFFICIAL REPOSITORY -> CHECK INSTALL INSTRUCTIONS
+-> DETECT ENVIRONMENT -> INSTALL TOOL -> CONFIGURE TOOL -> VERIFY TOOL -> RETRY ANALYSIS
+```
+
+```bash
+# Honest per-tool states: NOT_INSTALLED | INSTALLABLE | INSTALLING |
+# INSTALLED | CONFIGURED | VERIFIED | FAILED | UNSUPPORTED
+python3 -m rex.cli registry list
+
+# Preview what installation would do (no disk changes, --json supported)
+python3 -m rex.cli registry plan radare2 ghidra
+
+# Install + configure + verify individual registry tools / priorities
+python3 -m rex.cli registry install radare2
+python3 -m rex.cli registry install --priority 1
+python3 -m rex.cli registry ensure --priority 1        # idempotent
+python3 -m rex.cli registry install ghidra --dry-run
+python3 -m rex.cli registry install tshark --allow-system   # still never escalates
+python3 -m rex.cli registry retry                     # re-verify, reinstall if needed
+```
+
+| Tool | Priority | Install method | Notes |
+|---|---|---|---|
+| radare2 | 1 | distro package, else pinned source build from `codeload.github.com` (6.0.7, SHA-256 pinned) | shims in `~/.local/bin`; `LD_LIBRARY_PATH` exported by the wrapper |
+| JADX | 1 | pinned `@mishguru/jadx-node@3.1.0` archive (JADX 1.1.0) → managed wrapper | needs `java` (registry provides a Temurin JDK 25 wheel via `jdk4py`) |
+| Apktool | 1 | pinned `apktool-jar@2.4.1` archive | wrapper runs `java -jar apktool_2.4.1.jar` |
+| Binwalk | 1 | `UNSUPPORTED` in environments without Rust/cargo | REX's own signature/entropy scanner is used instead; reported, never faked |
+| TShark | 1 | distro package only | capture permissions are never assumed; offline analysis is the default |
+| Ghidra | 2 | pinned Ghidra 12.2 official release (JDK 25 required) | stays `INSTALLABLE` if the 600 MB asset host is unreachable |
+| Frida | 2 | managed venv with pinned `frida-tools` | installation does not grant device instrumentation permission |
+| Java | 1 (dependency) | distro package, else `jdk4py` Temurin JDK 25 | exposes `java`/`JAVA_HOME` for JADX, Apktool and Ghidra |
+
+Safety rules kept by the registry engine: no shell, argv-only commands, pinned
+version + SHA-256 for every download, downloads limited to official hosts,
+no privilege escalation, and `VERIFIED` only after a real version/functional
+probe succeeds (present files alone are at most `INSTALLED`). Installed
+wrappers live in `~/.local/bin` and per-tool prefixes in `~/.rex/tools/<tool>`;
+`PATH` is never mutated by REX itself. `analyze --install-missing` now
+provisions these registry tools instead of only reporting them as missing.
+
 ## Core Architecture (`rex/`)
 - `rex/config.py` — Portable paths, safe defaults, validation, and environment-variable secret handling.
 - `rex/detectors/` — Universal magic-byte, structural, archive, AI model (`.safetensors`, `.gguf`), and Minecraft artifact classifiers.
